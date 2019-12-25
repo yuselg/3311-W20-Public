@@ -58,6 +58,29 @@ Below we show the architecture of our suggested design of cluster `model` as a B
 
 We provide you with the complete text of class `CONSTANTS` and `TUPLE2`. You will need to complete class `SNOOKER_TABLE` (containing the blue and red balls) and class `BALL_POINT` (which represents positions of a ball on a snooker table). 
 
+```eiffel
+class CONSTANTS feature
+
+	length: DECIMAL
+			-- length of snooker table
+		once -- self intializing
+			Result := "356.9"
+		ensure class -- static
+		end
+
+	width: DECIMAL -- 177.8
+		-- width of snooker table
+	
+	zero: DECIMAL -- 0.0
+
+invariant
+	table-size: 
+		length ~ "356.9" and width ~ "177.8"
+	zeroth: 
+		zero ~ zero.zero
+end
+```
+
 You may use class `DECIMAl` to represent x-components and y-components of points. `length :=  "356.9"` may be used to set a precise decimal. See
 class [DECIMAL](https://www.eecs.yorku.ca/~eiffel/eiffel-docs/mathmodels/decimal.html) (which is part of the Mathmodels library). Tests for class `DECIMAL` are avaible [here](https://www.eecs.yorku.ca/~eiffel/eiffel-docs/decimal/decimal_primary_operation_test.html).
 
