@@ -1,0 +1,9 @@
+# Eiffel
+EIFGENs
+*.html
+
+# Python
+__pycache__/
+
+# Mac
+.DS_Store
