@@ -1,7 +1,6 @@
-note
-	description: "[
-		Arbitrary 2-tuple [x, y] where x and y are DECIMAL.
-		]"
+note 
+	description: "Arbitrary 2-tuple [x, y] where x and y are DECIMAL"
+	
 class
 	TUPLE2
 
