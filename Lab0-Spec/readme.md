@@ -69,7 +69,11 @@ The EiffelStudio IDE can also generate a UML diagram. Below we use a drawing too
 
 ![UML](images/uml.png)
 
-We will use a tool draw.io to draw BON class diagrams in our design documents. 
+In later Labs, you use the [draw.io](http://seldoc.eecs.yorku.ca/doku.php/eiffel/faq/bon) to draw BON class diagrams in design documents. BON diagrams allow us to document specifications. Here is an example:
+
+![BALL_POINT](images/ball-point.png)
+
+**Reflection Question**: (1) Can you tell from the BON class diagram which features are commands and which are quereis? (2) The design decision we made above is that class `BALL_POINT` uses class `TUPLE2`. Should that relationship be inheritance rather client-supplier?
 
 ### Modularity and the Superman Anti-Pattern
 
