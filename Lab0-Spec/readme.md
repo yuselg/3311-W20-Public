@@ -23,7 +23,7 @@ Getting full marks in Lab0 -- where it is your own work -- indicates that you ha
 
 ---
 
-## Lab0 challenge
+## Lab0 challenge 
 
 Do this Lab together with the active study of [Eiffel-101](https://www.eecs.yorku.ca/~eiffel/pdf/Eiffel-101.pdf). 
 
