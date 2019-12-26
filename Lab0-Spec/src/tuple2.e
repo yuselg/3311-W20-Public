@@ -1,15 +1,3 @@
-note
-	description: "[
-		Arbitrary 2-tuple [x, y] where x and y are DECIMAL.
-		DECIMAL is arbitrary precision as opposed to REAL_64.
-		See https://www.eecs.yorku.ca/~eiffel/eiffel-docs/mathmodels/decimal.html
-		Can create from a tuple of strings, e.g.:
-			t: TUPLE2
-			t := ["-47.6", 167.4"]
-			t.x and t.y are decimals.
-		Comparison of two 2-tuples is supported.
-	]"
-	author: "JSO"
 
 class
 	TUPLE2
