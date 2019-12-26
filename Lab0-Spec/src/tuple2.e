@@ -110,3 +110,15 @@ invariant
 	hypotenuse >= hypotenuse.zero
 
 end
+
+note
+	usage: "[
+
+	See http://www.eecs.yorku.ca/~eiffel/eiffel-docs/mathmodels/decimal.html
+		Can create from a tuple of strings, e.g.:
+			t: TUPLE2
+			t := ["-47.6", 167.4"]
+			t.x and t.y are decimals.
+		Comparison of two 2-tuples is supported.
+
+	]"
