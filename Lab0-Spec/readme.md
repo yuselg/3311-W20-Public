@@ -79,11 +79,11 @@ We could code the snooker table as a single class with everything in it: the siz
 
 But if others are to read, understand and maintain our code, it's not a great idea. 
 
-We may want to eventually deal with more than 2 balls, and to support better physics and a proper game of snooker with multiple players and keeping tcak of the score. As our application grows this Superman class also keeps growing and growing, and we might end up with a monstrous class with thousands and thousands of lines of incomprehensible spaghetti code. 
+We may want to eventually deal with more than 2 balls, and to support better physics and a proper game of snooker with multiple players and keeping track of player scores. As our application grows this Superman class also keeps growing and growing, and we might end up with a monstrous class with thousands and thousands of lines of incomprehensible spaghetti code. 
 
 ![BON](images/sphagetti.png) Wikipedia 
 
-####Information Hiding
+#### Information Hiding
 
 A common design technique is to separate a large problem into several smaller problems (a divide and conquer strategy) and to create solutions for each of them. Once the smaller problems are solved, the big problem as a whole has been solved by composition of the smaller problems in a loosely coupled way -- a way in which each module makes use of little (or no) knowledge of the descriptions of the other modules. Then we can change the implementation of a module (keeping its interface to other modules small and invariant) with no effect on other modules. 
 
@@ -107,7 +107,7 @@ class BALL_POINT feature  -- rejected design
 end
 ```
 
-What we see is the need for two different kinds of 2-tuples: (a) for a **point** on the coordinate plane (possibly bounded by the table dimension) and (b) a **δ-increment **(delta-increment) representing the effect of an impulsive force of cue to a snooker ball. Points might have to be constrained within the positive dimensions of a snooker table, but force impulse increments might be negative.  
+What we see is the need for two different kinds of 2-tuples: (a) for a **point** on the coordinate plane (possibly bounded by the table dimension) and (b) a **δ-increment** (delta-increment) representing the effect of an impulsive force of cue to a snooker ball. Points might have to be constrained within the positive dimensions of a snooker table, but force impulse increments might be negative.  
 
 We might declare each variable or routine argument with type `TUPLE[x: REAL; y:REAL]`. But what if we need to compare two instances of this type? Or show that two instances have the same value? (equality of `x` and `y` components). Or calculate the size of the hypotenuse of an impulse?
 
