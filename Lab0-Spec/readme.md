@@ -27,7 +27,8 @@ Getting full marks in Lab0 -- where it is your own work -- indicates that you ha
 
 Do this Lab together with the active study of [Eiffel-101](https://www.eecs.yorku.ca/~eiffel/pdf/Eiffel-101.pdf). 
 
-![Snooker Table](images/snooker.JPG)
+![Snooker Table](images/snooker.jpg)
+
 (Wikipedia)
 
 In this Lab, you design a **model** of the movement of two balls (one **blue**  and one **red**) on a snooker table. The table is 177.8cm (width, x-axis) by 356.9cm (height, y-axis). The balls may start at any position on the table. A cue stick may give an impulse to a ball which causes it to move on the table by some **delta** (finite increment). Each ball may only be given an impulse which does not cause it collide with the other ball, or move off the table. 
