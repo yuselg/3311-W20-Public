@@ -5,9 +5,9 @@ Complete this introductory Lab0 by the end of the first week. You **must** submi
 ## Your approach to assigned work and "learning"
 There are some fairly blunt suggestions about how to approach this course (see [Leamnson, 2002](http://www.eecs.yorku.ca/~eiffel/pdf/Learning-FirstJob.pdf)). 
 
-In Lab0, you are given a score (for your own benefit) -- but it is not weighted as part of your final grade. You can submit as many times as you wish. Each time we check your submision and provide you with feedback. Once submision closes wwe will grade it. 
+In Lab0, you are given a score purely for your own benefit (it is not weighted as part of your final grade). You can submit as many times as you wish. Each time we check your submision and provide you with feedback. Once submision closes we will grade it. 
 
-The Lab0 challenge below is simple -- compared to what you can expect later. If you do not receive 100% by the end of Week1 on Lab0, then that may indicate that you need to take more OO programminmg and data structure courses -- before doing this course. It does mean that you are not yet ready for the main  bulk of the work coming very soon down the pipeline. 
+The Lab0 challenge below is simple -- compared to what you can expect later. If you do not score 100% by the end of Week1 on Lab0, then that may indicate that you need to take more OO programminmg and data structures courses -- before doing this course. It does mean that you are not yet ready for the main  bulk of the work coming very soon down the pipeline. 
 
 Expect Lab0 to take a large chunk of time (more time than available in the scheduled lab session). Complete most of the work on your own before your scheduled lab session. Attend every scheduled lab seesion and use it to get help from the teaching assistants and lecturers.
 
@@ -17,9 +17,9 @@ But, it is up to you to become an **active** participant in the course. The reso
 
 Assigned work is cumulative -- one lab leads to the next.  Omitting any one Lab is likely to be a very serious mistake. Expect the workload to be high; however, asignments (i.e. labs, labtests and the Project) are carefully paced, if you keep up active work and focus each week. 
 
-Your attitude will influence how you react to assigned work. Inexperienced students view assigned work as paying dues, or taxes, or as mere busywork that instructors insist on out of habit. But that is to squander an excellent learning opportunity. Experienced students see the assigned work as something to be used as a clue from an instructor as to what is important enough to spend time learning. In most cases, assigned work is a solid, meaty chunk of what’s signficant. Don’t just do it with minimal effort and thought, use it to learn something new.
+Your attitude will influence how you react to assigned work. Inexperienced students view assigned work as paying dues, or taxes, or as mere busywork that instructors insist on out of habit. But that is to squander an excellent learning opportunity. Experienced students see the assigned work as something to be used as a clue from an instructor as to what is important enough to spend time learning. In most cases, assigned work is a solid, meaty chunk of what’s signficant. Don’t just do it with minimal effort and thought; use it to learn something new.
 
-Getting full marks in Lab0 -- where it is your own work -- indicates that you have adopted a productive active learning mode which is essential that you maintain for the rest of this course. 
+Getting full marks in Lab0 -- where it is your own work -- indicates that you have adopted a productive active learning mode which is essential for you to maintain for the rest of this course. 
 
 ---
 
