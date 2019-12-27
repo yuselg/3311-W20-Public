@@ -1,6 +1,6 @@
 # Lab0: Model Movement of Balls on a Snooker Table
 
-Complete this introductory Lab0 by the end of the first week. You **must** submit to ensure that you are ready for Lab1. There is a lot to learn in Week1, but you also have more time to invest. In this Lab you construct a very simple **model** of the movements of balls on a snooker table following a Design by Contract (DbC) approach. You will need to learn a variety of tools, methods and **specification** language constructs for documenting designs above the code level.  
+Complete this introductory Lab0 by the end of the first week. You **must** submit to ensure that you are ready for Lab1. There is a lot to learn in Week1, but you also have more time to invest. In this Lab you construct and test a very simple **model** of the movements of balls on a snooker table following a Design by Contract (DbC) approach. You will need to learn a variety of tools, methods and **specification** language constructs for documenting designs above the code level.  
 
 ## Your approach to assigned work and "learning"
 There are some fairly blunt suggestions about how to approach this course (see [Leamnson, 2002](http://www.eecs.yorku.ca/~eiffel/pdf/Learning-FirstJob.pdf)). 
