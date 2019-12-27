@@ -1,4 +1,4 @@
-# Lab0: Model a simplified Snooker Table
+# Lab0: Model Movement of Balls on a Snooker Table
 
 Complete this introductory Lab0 by the end of the first week. You **must** submit to ensure that you are ready for Lab1. There is a lot to learn in Week1, but you also have more time to invest. 
 
