@@ -71,7 +71,7 @@ Below we show the **architecture** (relationship between the classes) of our sug
 
 ![BON](images/bon.png)
 
-* We provide you with the complete text of class `CONSTANTS` and `TUPLE2`. 
+* We provide you with the complete text of class `CONSTANTS` and `TUPLE2`. See classes listed under  directory `src` (i.e. ![src](./src))
 * You will need to complete class `SNOOKER_TABLE` (containing the blue and red balls) and class `BALL_POINT` (which represents positions of a ball on a snooker table). 
 * The single red arrow represents an inheritance relationship. The double green arrow a client-suppler relationship (called an association in UML). The direction of the arrows describes dependency (`SNOOKER_TABLE` depends on `TUPLE2`, but not *vice versa*). 
 
