@@ -234,18 +234,18 @@ end
 You now have enough information to complete the Lab, of course using the various resources you have been provided with. As you do the Lab, try to understand and apply the following design tools, principles, and constructs. 
 
 * Use `eiffel-new` ([here](http://seldoc.eecs.yorku.ca/doku.php/eiffel/faq/eiffel-new)) to start a project that you will eventually submit. 
-* Obtain a working knowledge of Eiffel syntax and semantics. Review OO programming constructs and principles in the context of the Eiffel language and method. 
+* Obtain a basic working knowledge of Eiffel syntax and semantics. This is also a review of OO programming constructs and principles from your earlier courses, in the context of the Eiffel language and method. 
 * Use the IDE to create classes in clusters and browse code.
-* Use the IDE and ESpec to exceute unit etsts. Start with a few tests and then expand the set of tests and keep regression testing as you implement new features.
-* The program text does not just contain implementation code. It also contains  **contracts** (preconditions, postconditions and class invariants) as specifications and must implement these specifications of features. Contracts are **predicates** so you will need to brush up on your logic (see Logic-101). Implementations are checked at runtime for correctness. 
+* Use the IDE and ESpec to execute unit tests. Start with a few tests and then expand the set of tests and keep regression testing as you implement new features.
+* Use the debugger to fix problems in your code. 
+* The program text does not just contain implementation code. It also contains  **contracts** (preconditions, postconditions and class invariants) as specifications and must implement these specifications of features. Contracts are **predicates** so you will need to brush up on your logic (see Logic-101). Implementations are checked against contracts at runtime for correctness. 
 * Understand **command-query** separation principle. 
 * Use client-supplier (associations) and inheritance. View and understand BON class diagrams (similar to UML class diagrams). 
-* You use reference equality (`=`) and value equality (`is_equal` and `~`) and `COMPARABLE`.
+* See the use of reference equality (`=`) vs value equality (`is_equal` and `~`) and `COMPARABLE`.
 * See the use of class `ARRAY[G]` where 	`G` is a generic parameter. See the use of iteration over arrays via a regular loop construct.
 * See the use of **across** iteration for quantifiers in contracts.   
 * Use a library class `DECIMAL`
 * See the use of `once` and `convert` constructs.
-
 
 The textbook OOSC2 explains the software design **rationale** for most of these concepts (albeit some of the syntax is obsolete). The textbook "Touch of Class" has the more up-to-date syntax.
 
