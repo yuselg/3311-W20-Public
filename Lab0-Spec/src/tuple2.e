@@ -108,8 +108,6 @@ feature -- Debug output
 invariant
 	hypotenuse >= hypotenuse.zero
 
-end
-
 note
 	usage: "[
 
@@ -121,3 +119,4 @@ note
 		Comparison of two 2-tuples is supported.
 
 	]"
+end
