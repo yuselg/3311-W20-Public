@@ -71,9 +71,9 @@ Below we show the **architecture** (relationship between the classes) of our sug
 
 ![BON](images/bon.png)
 
-* We provide you with the complete text of class `CONSTANTS` and `TUPLE2`. See classes listed under  directory `src` (i.e. ![src](./src))
-* You will need to complete class `SNOOKER_TABLE` (containing the blue and red balls) and class `BALL_POINT` (which represents positions of a ball on a snooker table). 
-* The single red arrow represents an inheritance relationship. The double green arrow a client-suppler relationship (called an association in UML). The direction of the arrows describes dependency (`SNOOKER_TABLE` depends on `TUPLE2`, but not *vice versa*). 
+* We provide you with the complete text of class `CONSTANTS` and `TUPLE2`. See classes listed under  directory `src` (i.e. [src](./src)). 
+* The single red arrow represents an **inheritance** relationship. The double green arrow a **client-suppler** relationship (called an association in UML). The direction of the arrows describes dependency (`SNOOKER_TABLE` depends on `TUPLE2`, but not *vice versa*). 
+* You will need to complete class `SNOOKER_TABLE` (containing the blue and red balls) and class `BALL_POINT` (which represents positions of a ball on a snooker table). In `src` , we provide the **contract view** of these classes, and you must implement these classes.
 
 The EiffelStudio IDE can also generate a UML diagram. Below we use a drawing tool to show the UML. The notation in a UML class is to have one section for attributes and below that for methods. Perplexingly, UML does not adopt the Command-Query Separation principle. 
 
