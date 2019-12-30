@@ -1,8 +1,8 @@
 Resources for Lab0 below:
 
-* [Lab0-Prep.pdf](Lab0-Prep.pdf). Use the EiffelStudio to compile and unit test programs.  
+* [Lab0-Prep.pdf](Lab0-Prep.pdf). Instructions for compiling and unit testing using the EiffelStudio IDE. Use `eiffel-new` (and Mathmodels) to create new void safe projects. Instructions for installing Eiffel on your own Laptop, if needed. 
 * [Eiffel-101](https://www.eecs.yorku.ca/~eiffel/pdf/Eiffel-101.pdf). 
-* [Useful Videos](https://www.youtube.com/playlist?list=PL5dxAmCmjv_6r5VfzCQ5bTznoDDgh__KS). See the first one in the playlist. 
+* [Tutorial Videos](https://www.youtube.com/playlist?list=PL5dxAmCmjv_6r5VfzCQ5bTznoDDgh__KS). See the first one in the playlist. 
 
 # Lab0: Model Movement of Balls on a Snooker Table
 
@@ -58,11 +58,20 @@ Our snooker balls are so tiny that we may assume that a ball can be represented 
 ### ESpec Unit Testing
 ![Unit Tests](images/unit-tests.png)
 
-You submit a folder `snooker` with the following file structure:
-
 ### Folder structure of your submission
 
+You submit a folder `snooker` with the following file structure:
+
 ![Files](images/files.png)
+
+Before you submit, ensure that your project compiles and passes all the ESpec tests. Then, at the command line on an EECS workstation or server:
+
+`submit 3311 Lab0 snooker`
+
+Your code will be compiled and our unit tests will be executed.  You will receive feedback immediately! If all our tests succeed you will receive a `Hurrah ...`.
+
+
+If any of our tests fail on your submission, these failing tests will be enumerated. 
 
 
 ## Design
