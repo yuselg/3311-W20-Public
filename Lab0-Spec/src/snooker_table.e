@@ -70,6 +70,7 @@ feature --  multi move blue ball
 			-- and save the maximum move
 		require
 				not terminated
+				a.count >= 1
 		local
 			i: INTEGER_32
 			old_blue: like blue
@@ -103,14 +104,16 @@ feature --  multi move blue ball
 				maximum := Void
 			end
 		ensure
-			max_not_calculated: not calculated implies maximum = Void
-			max_calculated: 
-				calculated and attached maximum as max implies 
-				across
-					a is delta
-				all
-					max >= delta
-				end
+			max_not_calculated:
+				not calculated implies maximum = Void
+			max_calculated:
+				  calculated
+				implies
+				  attached maximum as max
+				  and then a.has (max)
+				  and then (across a is delta all
+					      max >= delta
+					    end)
 		end
 	
 feature {NONE} -- implementation

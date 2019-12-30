@@ -179,7 +179,7 @@ Note that we follow the **Command-Query** separation principle (query routines s
 
 Attributes such as `blue` and `red` are public; they do not need to be made private with "getters. This is because other objects can read public attributes of instances of SNOOKER_TABLE, but cannot write to them (e.g. another class may not have `table.new_blue := [40.8, 16.2]`). 
 
-We have set up our projects so that by default variables are of **attached** type. When a variable is declared of an attached type, the compiler will prevent it from being set to `Void` or set to anything that can be set to Void. In class SNOOKER_TABLE, query routine `maximum` is declared **detachable**, meaning that it may be set to `Void`. At compile time, the compiler will ensure that there are no null exceptions due to void safety, and there are thus certain constructs you must use with detachable types. Read more about void safety over [here](https://www.eiffel.org/doc/eiffel/Void-safe_programming_in_Eiffel). Void safety is an important mechanism for designing reliable softer and many programming languages now support this property. 
+We have set up our projects so that by default variables are of **attached** type. When a variable is declared of an attached type, the compiler will prevent it from being set to `Void` or set to anything that can be set to Void. In class SNOOKER_TABLE, query routine `maximum` is declared **detachable**, meaning that it may be set to `Void`. At compile time, the compiler will ensure that there are no null pointer exceptions due to void safety, and there are thus certain constructs you must use with detachable types. Read more about void safety over [here](https://www.eiffel.org/doc/eiffel/Void-safe_programming_in_Eiffel). Void safety is an important mechanism for designing reliable softer and many programming languages now support this property. 
 
 We have equipped class `TUPLE2` with the following properties:
 
@@ -226,7 +226,7 @@ end
 
 ## Principles and Constructs
 
-You now have enough information to complete the Lab, of course using the various resources you have ben provided with. As you do the Lab, try to understand and apply the following design tools, principles, and constructs. 
+You now have enough information to complete the Lab, of course using the various resources you have been provided with. As you do the Lab, try to understand and apply the following design tools, principles, and constructs. 
 
 * Use `eiffel-new` to start a project that you will eventually submit. 
 * Obtain a working knowledge of Eiffel syntax and semantics. Review OO programming constructs and principles in the context of the Eiffel language and method. 
