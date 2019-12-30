@@ -1,4 +1,4 @@
-Resources for Lab0 below:
+# Resources for Lab0 below:
 
 * [Lab0-Prep.pdf](Lab0-Prep.pdf). Instructions for compiling and unit testing using the EiffelStudio IDE. Use `eiffel-new` (and Mathmodels) to create new void safe projects. Instructions for installing Eiffel on your own Laptop, if needed. 
 * [Eiffel-101](https://www.eecs.yorku.ca/~eiffel/pdf/Eiffel-101.pdf). 
