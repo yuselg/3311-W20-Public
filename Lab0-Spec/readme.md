@@ -44,7 +44,7 @@ Our snooker balls are so tiny that we may assume that a ball can be represented 
 
 3. You are provided with precise specifications (via contracts) but not the implementation. If you understand the specifications then you know what must be implemented. 
 
-4. We provide you with a suite of unit tests that your submision must pass. You should also add tests of your own tio satsify yourself that your design is correct.
+4. We provide you with a suite of unit tests that your submission must pass. You should also add tests of your own to satisfy yourself that your design is correct.
 
 
 5. **N.B.** In this course, all your submitted work **must** compile and pass either unit or acceptance tests. We use these tests to grade the **correctness** of your design submissions. If your submission does not compile, or it compiles but it crashes (with unexpected exceptions), or it does not terminate, or it terminates with incorrect output, then you cannot expect to achieve a passing grade. It is thus up to you to ensure that your submissions satisfy the requirements. At the very least, you must get all the unit tests we provide to run with a green bar of success. In addition, always add tests of your own. Submit as many times as you wish before the deadline. We check each submission and provide you with some feedback.
@@ -93,7 +93,7 @@ We may want to eventually deal with more than 2 balls, and to support better phy
 
 #### Information Hiding
 
-A common design technique is to separate a large problem into several smaller problems (a divide and conquer strategy) and to create solutions for each of them. Once the smaller problems are solved, the big problem as a whole has been solved by composition of the smaller problems in a loosely coupled way -- a way in which each module makes use of little (or no) knowledge of the descriptions of the other modules. Then we can change the implementation of a module (keeping its interface to other modules small and invariant) with no effect on other modules. 
+A common design technique is to decompose a large problem into several smaller problems (a divide and conquer strategy) and to create solutions for each of them. Once the smaller problems are solved, the big problem as a whole has been solved by composition of the smaller problems in a loosely coupled way -- a way in which each module makes use of little (or no) knowledge of the descriptions of the other modules. Then we can change the implementation of a module (keeping its interface to other modules small and invariant) with no effect on other modules. 
 
 Therefore, a given module that is a solution to a small problem need only know about itself, and the public interfaces of other modules that it uses. So modules (or, in OO, classes) allow us to follow a policy of **separation of concerns**. A class (i.e. a module of the system) should hide a design decision from the other classes of the application. This is one example of **information hiding**. 
 
