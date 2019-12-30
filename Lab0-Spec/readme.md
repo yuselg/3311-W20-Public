@@ -1,3 +1,9 @@
+Resources for Lab0 below:
+
+* [Lab0-Prep.pdf](Lab0-Prep.pdf). Use the EiffelStudio to compile and unit test programs.  
+* [Eiffel-101](https://www.eecs.yorku.ca/~eiffel/pdf/Eiffel-101.pdf). 
+* [Useful Videos](https://www.youtube.com/playlist?list=PL5dxAmCmjv_6r5VfzCQ5bTznoDDgh__KS). See the first one in the playlist. 
+
 # Lab0: Model Movement of Balls on a Snooker Table
 
 Complete this introductory Lab0 by the end of the first week. You **must** submit to ensure that you are ready for Lab1. There is a lot to learn in Week1, but you also have more time to invest. In this Lab you construct and test a very simple **model** of the movements of balls on a snooker table following a Design by Contract (DbC) approach. You will need to learn a variety of tools, methods and **specification** language constructs for documenting designs above the code level.  
@@ -195,7 +201,6 @@ You may use class `DECIMAl` to represent x-components and y-components of points
 class [DECIMAL](https://www.eecs.yorku.ca/~eiffel/eiffel-docs/mathmodels/decimal.html) (which is part of the Mathmodels library). Tests for class `DECIMAL` are available [here](https://www.eecs.yorku.ca/~eiffel/eiffel-docs/decimal/decimal_primary_operation_test.html). Unit Tests are important not just for checking the correctness of classes, but they also document how to use the class. 
 
 #### Class CONSTANT
-
 
 ```eiffel
 note
