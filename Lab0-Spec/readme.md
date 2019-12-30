@@ -38,7 +38,7 @@ Our snooker balls are so tiny that we may assume that a ball can be represented 
 ![Cartesian](images/cartesian.png)
 (Wikipedia)
 
-1. It is essential that any impulse that is out of bounds causes a contractual exception to be raised (via preconditions, posconditions and class invariants). 
+1. It is essential that any impulse that is out of bounds causes a contract violation to occur (via preconditions, posconditions and class invariants). 
 
 2. You must use **eiffel-new** to create a new void safe project `snooker`. [**Aside**: Such projects automatically include various libraries such as Gobo (e.g. to do regular expressions) and Mathmodels (mathematical sets, functions relations etc.). You will eventually learn more about these libraries. **end aside**]
 
