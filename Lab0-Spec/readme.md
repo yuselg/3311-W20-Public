@@ -1,6 +1,6 @@
 # Resources for Lab0 below:
 
-* [Video](https://youtu.be/UiJ3j44xxhE): getting started with Lab0 (12 minutes).
+* [Video](https://youtu.be/2KKg8gYLiWs): getting started with Lab0 (12 minutes).
 * [Lab0-Prep.pdf](Lab0-Prep.pdf). Instructions for compiling and unit testing using the EiffelStudio IDE. Use `eiffel-new` (and Mathmodels) to create new void safe projects. Instructions for installing Eiffel on your own Laptop, if needed. 
 * [Eiffel-101](https://www.eecs.yorku.ca/~eiffel/pdf/Eiffel-101.pdf). 
 * [Optional Tutorial Videos](https://www.youtube.com/playlist?list=PL5dxAmCmjv_6r5VfzCQ5bTznoDDgh__KS). See the first one in the playlist. 
