@@ -228,7 +228,7 @@ end
 
 You now have enough information to complete the Lab, of course using the various resources you have been provided with. As you do the Lab, try to understand and apply the following design tools, principles, and constructs. 
 
-* Use `eiffel-new` to start a project that you will eventually submit. 
+* Use `eiffel-new` ([manuals](http://seldoc.eecs.yorku.ca/doku.php/eiffel/faq/eiffel-new)) to start a project that you will eventually submit. 
 * Obtain a working knowledge of Eiffel syntax and semantics. Review OO programming constructs and principles in the context of the Eiffel language and method. 
 * Use the IDE to create classes in clusters and browse code
 * Use the IDE and ESpec to run unit testing. Start with a few tests and then expand the set of tests and keep regression testing as you implement features.
