@@ -70,9 +70,9 @@ feature -- out
 	out: STRING
 		do
 			if attached name as l_name then
-				Result := "id:" + id.out + "," + l_name
+				Result := "pid " + id.out + "," + l_name
 			else
-				Result := "id:" + id.out
+				Result := "pid" + id.out
 			end
 		end
 
