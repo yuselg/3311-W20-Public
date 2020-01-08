@@ -14,7 +14,7 @@ inherit
 
 	DEBUG_OUTPUT
 		redefine
-			out
+			 out
 			,is_equal
 		end
 
@@ -64,6 +64,7 @@ feature {BANK, ES_TEST} -- commands
 		ensure
 			balance ~ (old balance + a_value)
 			owner ~ old owner
+			id ~ old id
 		end
 
 	withdraw (a_value: DECIMAL)
@@ -76,6 +77,7 @@ feature {BANK, ES_TEST} -- commands
 		ensure
 			balance ~ (old balance - a_value)
 			owner ~ old owner
+			id ~ old id
 		end
 
 feature -- out

@@ -111,7 +111,7 @@ feature -- tests
 			joe: PERSON
 			a: ACCOUNT
 		do
-			comment ("t1: create joe with account a and test it with deposit/withdraw")
+			comment ("t1: create account for joeand test it with deposit/withdraw")
 
 			create b.make
 			-- create joe with id=1
