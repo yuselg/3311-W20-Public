@@ -32,13 +32,14 @@ feature {NONE} -- Initialization
 			id := a_id
 		end
 
+feature {BANK} -- information hiding
+	accounts: ARRAY [ACCOUNT]
+
 feature -- queries
 
 	id: ID -- identity of this person
 
 	name: detachable STRING
-
-	accounts: ARRAY [ACCOUNT]
 
 	is_equal (other: like Current): BOOLEAN
 		do

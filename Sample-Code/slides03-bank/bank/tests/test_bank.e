@@ -26,6 +26,7 @@ feature {NONE} -- Tests to run
 			add_boolean_case (agent t0)
 			add_boolean_case (agent t1)
 			add_boolean_case (agent t2)
+			add_boolean_case (agent t3)
 
 			-- violation cases
 			add_violation_case_with_tag ("is_positive", agent violation_test_id)
@@ -188,6 +189,27 @@ feature -- tests
 			check Result end
 		end
 
+
+	t3: BOOLEAN
+		local
+			a: ACCOUNT
+			joe: PERSON
+			balance: DECIMAL
+		do
+			comment ("t3: test old/new and twin in account")
+			create joe.make (5)
+			-- create account a1 for joe
+			create a.make (joe, 105)
+			a.deposit ("201.49")
+			balance := a.balance
+			Result := a.balance ~ "201.49"
+			a.withdraw("1.49")
+			Result := a.balance ~ "200"
+				and balance ~ "201.49"
+				and balance /~ a.balance
+			check Result end
+
+		end
 
 feature -- violation cases
 	violation_test_id

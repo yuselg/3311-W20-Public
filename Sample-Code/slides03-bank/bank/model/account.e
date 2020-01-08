@@ -73,6 +73,8 @@ feature {BANK, ES_TEST} -- commands
 			a_value > zero
 			balance - a_value >= zero
 		do
+--			owner := create {PERSON}.make(2) -- violates post
+--			id := create {ID}.make (100)
 			balance := balance - a_value
 		ensure
 			balance ~ (old balance - a_value)
