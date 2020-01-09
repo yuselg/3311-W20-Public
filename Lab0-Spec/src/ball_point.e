@@ -121,9 +121,9 @@ feature -- out
 		end
 	
 invariant
-	x_constraint: 
-		Zero <= y and y <= Length
 	y_constraint: 
+		Zero <= y and y <= Length
+	x_constraint: 
 		Zero <= x and x <= Width
 
 end -- class BALL_POINT

@@ -51,9 +51,9 @@ feature -- commands
 		require
 			delta_safe: red.safe (red.x + delta.x, red.y + delta.y)
 			status: not terminated
-			not_red: red /~ {BALL_POINT}.t2ball 
-				(create {TUPLE2}.make_from_tuple 
-					([red.x + delta.x, red.y + delta.y]))
+			not_blue: -- delta does not take us to red ball point
+				blue /~ {BALL_POINT}.t2ball ([red.x + delta.x, red.y + delta.y])
+
 		ensure
 			new_red_x: red.x ~ old red.x + delta.x
 			new_red_y: red.y ~ old red.y + delta.y
