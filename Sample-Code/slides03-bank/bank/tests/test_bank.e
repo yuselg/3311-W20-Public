@@ -127,7 +127,7 @@ feature -- tests
 			b.deposit (joe, a, "20.42")
 			Result := b.account[joe].has (a) and a.balance ~ "20.42"
 			check Result end
-			b.wihdraw (joe, a, "10.42")
+			b.withdraw (joe, a, "10.42")
 			Result := b.account[joe].has (a) and a.balance ~ "10.00"
 			check Result end
 		end
@@ -160,7 +160,7 @@ feature -- tests
 			b.deposit (amy, a, "31.42")
 			Result := a.balance ~ "31.42"
 			check Result end
-			b.wihdraw (amy, a, "11.42")
+			b.withdraw (amy, a, "11.42")
 			Result :=  a.balance ~ "20.00"
 			check Result end
 			-- joe
@@ -168,7 +168,7 @@ feature -- tests
 			b.deposit (joe, aj1, "20.42")
 			Result := aj1.balance ~ "20.42"
 			check Result end
-			b.wihdraw (joe, aj1, "10.42")
+			b.withdraw (joe, aj1, "10.42")
 			Result := aj1.balance ~ "10.00"
 			check Result end
 			Result := b.persons.out ~ "{ pid1, pid2 }"
@@ -211,13 +211,34 @@ feature -- tests
 
 		end
 
+	t4: BOOLEAN
+		local
+			a: ACCOUNT
+			joe: PERSON
+			balance: DECIMAL
+		do
+			comment ("t4: test add name to an account")
+			create joe.make (5)
+			-- create account a1 for joe
+			create a.make (joe, 105)
+			a.deposit ("201.49")
+			balance := a.balance
+			Result := a.balance ~ "201.49"
+			a.withdraw("1.49")
+			Result := a.balance ~ "200"
+				and balance ~ "201.49"
+				and balance /~ a.balance
+			check Result end
+
+		end
+
 feature -- violation cases
 	violation_test_id
 		local
-			id1, id2: ID
+			id: ID
 		do
 			comment("violation_test_id: ids must be positive")
-			create id1.make (-5)
+			create id.make (-5)
 			-- expect precondition failure
 		end
 

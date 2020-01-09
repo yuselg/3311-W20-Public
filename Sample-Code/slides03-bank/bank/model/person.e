@@ -1,5 +1,7 @@
-note
-	description: "A person has an id and may have a set of bank accounts"
+﻿note
+	description: "[
+		A person has an id and may have a set of bank accounts
+		]"
 	author: "JSO"
 	date: "2020-01-05"
 
@@ -28,53 +30,29 @@ feature {NONE} -- Initialization
 	make (a_id: ID)
 			-- Initialization for `Current'.
 		do
-			create accounts.make_empty
 			id := a_id
+		ensure
+			id = a_id
 		end
-
-feature {BANK} -- information hiding
-	accounts: ARRAY [ACCOUNT]
 
 feature -- queries
 
+
 	id: ID -- identity of this person
 
-	name: detachable STRING
 
 	is_equal (other: like Current): BOOLEAN
 		do
-			Result := id ~ other.id and name ~ other.name
+			Result := id ~ other.id
 		ensure then
-			Result = (id ~ other.id and name ~ other.name)
-		end
-
-feature {BANK} -- command
-
-	add_account (a_account: ACCOUNT)
-			-- add a new `a_account` for this person
-		require
-			not accounts.has (a_account)
-		do
-			accounts.force (a_account, accounts.count +1)
-		ensure
-			accounts.has (a_account)
-			id = old id
-		end
-
-	add_name(a_name: STRING)
-		do
-			name := a_name
+			Result = (id ~ other.id)
 		end
 
 feature -- out
 
 	out: STRING
 		do
-			if attached name as l_name then
-				Result := "pid " + id.out + "," + l_name
-			else
-				Result := "pid" + id.out
-			end
+			Result := "pid" + id.out
 		end
 
 	debug_output: STRING
@@ -84,5 +62,4 @@ feature -- out
 
 invariant
 	id >= 1
-
 end

@@ -17,7 +17,6 @@ inherit
 			 out
 			,is_equal
 		end
-
 create
 	make
 
@@ -75,6 +74,7 @@ feature {BANK, ES_TEST} -- commands
 		do
 --			owner := create {PERSON}.make(2) -- violates post
 --			id := create {ID}.make (100)
+			
 			balance := balance - a_value
 		ensure
 			balance ~ (old balance - a_value)

@@ -40,7 +40,6 @@ feature -- model queries
 	id: FUN [PERSON, ID]
 			-- a person has an id
 
-
 	total: DECIMAL
 			-- total money in all accounts in the bank
 			-- array implementation and loop
@@ -50,6 +49,7 @@ feature -- model queries
 		do
 			Result := zero
 			account_array := account.range.as_array
+			--could use across, but we wish to illustrate a loop
 			from i := account_array.lower
 			until i > account_array.upper
 			loop
@@ -57,24 +57,20 @@ feature -- model queries
 				i := i + 1
 			variant account_array.count + 1 - i
 			end
-		ensure
+		ensure -- Result = (Σa ∈ account.range: a)
 			Result >= zero
-				-- Result = (Σa ∈ account.range: a)
+			Result ~ sum(account.range)
 		end
 
-	total_alternative: DECIMAL
-			-- total money in all accounts in the bank
-			-- across iteration
+feature -- query helper
+	sum(collection: ITERABLE[ACCOUNT]): DECIMAL
+			-- return sum of all account balances in `collection`
 		do
-			Result := zero
-			across
-				account.range as l_account
-			loop
-				Result := Result + l_account.item.balance
+			Result := "0"
+			across collection is it loop
+				Result := Result + it.balance
 			end
-		ensure
-			Result >= zero
-				-- Result = (Σa ∈ account.range: a)
+		ensure class
 		end
 
 feature -- commands
@@ -110,11 +106,13 @@ feature -- commands
 	deposit (p: PERSON; a: ACCOUNT; v: DECIMAL)
 			-- deposit amount `v` for person `p` in account `a`
 		require
-			persons.has (p) 		-- p ∈ persons
-			account [p].has (a) --  p ∈ account[p], relational image
 			v > zero
+			account.has ([p, a]) -- [p, a] ∈ account
 		do
-			a.deposit (v)
+			-- precondition ensures that account exists in system
+			check attached get_account (p, a) as l_account then
+				l_account.deposit(v)
+			end
 		ensure
 			persons_unchanged:
 				persons ~ old persons.deep_twin
@@ -124,15 +122,17 @@ feature -- commands
 				a.balance ~ old a.balance + v
 		end
 
-	wihdraw (p: PERSON; a: ACCOUNT; v: DECIMAL)
-			-- wihdraw amount `v` for person `p` in account `a`
+	withdraw (p: PERSON; a: ACCOUNT; v: DECIMAL)
+			-- withdraw amount `v` for person `p` in account `a`
 		require
-			persons.has (p) 		-- p ∈ persons
-			account [p].has (a)  --  p ∈ account[p], relational image
 			v > zero
 			a.balance - v >= zero
+			account.has ([p, a]) -- [p, a] ∈ account
 		do
-			a.withdraw (v)
+			-- precondition ensures that account exists in system
+			check attached get_account (p, a) as l_account then
+				l_account.withdraw(v)
+			end
 		ensure
 			persons_unchanged:
 				persons ~ old persons.deep_twin
@@ -142,13 +142,42 @@ feature -- commands
 				a.balance ~ old a.balance - v
 		end
 
+feature{NONE} -- implementation
+
+		get_account(p: PERSON; a: ACCOUNT): detachable ACCOUNT
+			-- get account value-equal to `a` for person `p'
+			-- in relation `account` if it exists
+		local
+			l_array: ARRAY[ACCOUNT]
+			la: ACCOUNT
+			i: INTEGER
+			stop: BOOLEAN
+		do
+			if  account.has ([p, a]) then
+				l_array := account[p].as_array
+				from i := l_array.lower
+				until i > l_array.upper or stop
+				loop
+					if a ~ l_array[i] then
+						Result := l_array[i]
+						stop := True
+					end
+					i := i + 1
+				end
+			end
+		end
+
 invariant
 	consistent_persons_and_account:
 		across account.domain is p all
 			persons.has (p)
 		end
+
 	alternative_consistent: -- alternative to subset1
 		account.domain |<: persons -- is subset of
+
+	all_persons_have_ids:
+		persons ~ id.domain
 
 	unique_ids: id.is_injection
 
