@@ -120,6 +120,10 @@ feature -- commands
 				(account @>> a) ~ old (account.deep_twin @>> a)
 			this_account_change:
 				a.balance ~ old a.balance + v
+			in_account:
+				account[p].has (a)
+			get_account_correctly_implemented:
+				get_account (p, a) ~ a
 		end
 
 	withdraw (p: PERSON; a: ACCOUNT; v: DECIMAL)
@@ -140,6 +144,10 @@ feature -- commands
 				(account @>> a) ~ old (account.deep_twin @>> a)
 			this_account_change:
 				a.balance ~ old a.balance - v
+			in_account:
+				account[p].has (a)
+			get_account_correctly_implemented:
+				get_account (p, a) ~ a
 		end
 
 feature{NONE} -- implementation
@@ -180,5 +188,6 @@ invariant
 		persons ~ id.domain
 
 	unique_ids: id.is_injection
+
 
 end
