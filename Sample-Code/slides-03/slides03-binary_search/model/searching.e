@@ -11,8 +11,10 @@ feature
 
 	binary_seach(a: ARRAY[G]; target: G): INTEGER
 		require
-			a.lower = 1
-			across 1 |..| (a.count-1) is i all
+			lower:
+				a.lower = 1
+			sorted:
+				across 1 |..| (a.count-1) is i all
 				a[i] <= a[i+1]
 			end
 		local
@@ -20,7 +22,7 @@ feature
 			mid: INTEGER -- middle
 			found: BOOLEAN
 		do
---			a.compare_objects
+			a.compare_objects
 			from
 				p := 1
 				q := a.count
@@ -42,8 +44,10 @@ feature
 				end
 			end
 		ensure class  -- pure function
-			not a.has (target) implies (Result = 0)
-			a.has (target) implies (a[Result] ~target)
+			target_found:
+				not a.has (target) implies (Result = 0)
+			traget_not_found:
+				a.has (target) implies (a[Result] ~target)
 		end
 
 end
