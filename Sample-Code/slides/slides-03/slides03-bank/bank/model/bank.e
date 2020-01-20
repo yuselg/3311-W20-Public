@@ -134,8 +134,14 @@ feature -- commands
 			account.has ([p, a]) -- [p, a] ∈ account
 		do
 			-- precondition ensures that account exists in system
-			check attached get_account (p, a) as l_account then
+			if attached get_account (p, a) as l_account then
 				l_account.withdraw(v)
+			else
+				check
+					-- will not happen
+					precondition_ensures_attached: False
+					-- can do a check instead
+				end
 			end
 		ensure
 			persons_unchanged:

@@ -10,13 +10,15 @@ class
 feature
 
 	binary_seach(a: ARRAY[G]; target: G): INTEGER
+			-- return index to array `a` for `target`
+			-- if it exists, otherwise zero
 		require
 			lower:
 				a.lower = 1
 			sorted:
 				across 1 |..| (a.count-1) is i all
-				a[i] <= a[i+1]
-			end
+					a[i] <= a[i+1]
+				end
 		local
 			p, q: INTEGER -- pivots
 			mid: INTEGER -- middle
@@ -46,7 +48,7 @@ feature
 		ensure class  -- pure function
 			target_found:
 				not a.has (target) implies (Result = 0)
-			traget_not_found:
+			target_not_found:
 				a.has (target) implies (a[Result] ~target)
 		end
 
