@@ -22,3 +22,5 @@ Below, we use the standard notation of *push*, *pop* and *top*.
 * Top of the stack is first element of list: model[1] ~ implementation[1]
 
 ![](docs/Stack.png)
+
+![](docs/Stack.pdf)
