@@ -2,7 +2,7 @@
 
 This is the simplest example of using Mathmodels to specify a general stack Abstract Data Type (from OOSC2). 
 
-![](docs/Stack-adt.png)
+![](docs/stack-adt.png)
 
 Below, we use the standard notation of *push*, *pop* and *top*. 
 
