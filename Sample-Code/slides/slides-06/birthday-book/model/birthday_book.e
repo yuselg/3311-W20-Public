@@ -110,7 +110,7 @@ feature -- queries
 		ensure
 			remind_count:
 				Result.count = (model @> (d)).count
-			remind_model_range_restriction: -- model ⩥ {d}
+			remind_model_range_restriction: -- model ▷ {d}
 				across (model @> (d)).domain is al_name all
 					Result.has (al_name)
 				end
