@@ -1,6 +1,10 @@
 # Iterator Design Pattern
 
-In object-oriented programming, the iterator pattern is a design pattern in which an iterator is used to traverse a container and access the container's elements. The iterator pattern decouples algorithms from containers (Wikipedia). Below is the simplest possible example of the application of the pattern to a collection (class GROUP[G] with generic parameter G) with only 3 elements 
+The iterator pattern is a design pattern that provides a way to access the elements of an aggregate object (collection or container) sequentially without exposing its underlying representation. An iterator is used to traverse a container and access the container's elements in different ways (see **loop**, **some** and **all**) and at different times. For example, we might want to traverse a list in different ways, without bloating the list interface with traversal operations.  One might also need to have more than one traversal pending on the same list. 
+
+The Iterator pattern lets you do all this. The key idea is to take the responsibility for access and traversal out of the aggregate object and put it into an Iterator object that defines a standard traversal protocol.
+
+Below is the simplest possible example of the application of the pattern to a collection (class GROUP[G] with generic parameter G) with only 3 elements 
 
 ![](docs/iterator.png)
 
