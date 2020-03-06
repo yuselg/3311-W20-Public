@@ -1,0 +1,8 @@
+directions_of_player (player: CHARACTER): ARRAY[TUPLE[x: INTEGER; y: INTEGER]]
+            -- Given the type of `player', return all possible directions of moves.
+            -- e.g., [ 1,  2] means move to right by 1 and move up   by 2
+            -- e.g., [-1, -2] means move to left  by 2 and move down by 2
+            -- Notice that this query does not consider the player's current position and the board size.
+            -- It is expected that the return value of this query is further filtered out
+            -- based on the player's current position and the board size.
+I assumed that `moves' (where the filtering is done using` valid') is provided in OPERATION and they are supposed to implement the deferred `directions' query.

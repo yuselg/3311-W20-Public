@@ -1,0 +1,28 @@
+system chess
+  -- just a King (K) and a Bishop (B) with undo/redo
+
+type SIZE = 5..8
+  -- size of board, e.g. 5 x 5
+
+type SQUARE = TUPLE [x: 1..8; y: 1..8]
+
+play(size: SIZE)
+  -- create a board with `size` rows and `size` columns
+  -- initially, the King is always at the top left [1,1] 
+  -- and the Bishop is always at the bottom right [size, size]
+
+ move_king(square: SQUARE)
+   -- some moves not permitted
+   -- either due to board size
+   -- or because a square is occupied
+
+ move_bishop(square: SQUARE)
+   -- some moves not permitted
+   -- either due to board size
+   -- or because a square is occupied
+
+ undo
+
+ redo
+
+
