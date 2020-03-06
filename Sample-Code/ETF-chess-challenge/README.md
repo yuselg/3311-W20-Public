@@ -8,7 +8,9 @@ This is preparation that you must do for Labtest2.
 
 Chapter 21 of OOSC2 (see SVN readings) discusses a general **undo/redo design pattern**. Using ETF for the user interface, you must **design** a chessboard that supports the moves of various pieces, and the ability to undo/redo moves efficiently. See the BON class diagrams in the OOSC2 chapter for the architecture of this pattern. 
 
-See folder `src` for some program text to help you with your design.  In the Labtest you will apply the undo/redo design pattern for a chess board with only two pieces, e.g. a king (K) and a bishop (B). The undo/redo design pattern is built on top of basic OO constructs such as static typing, dynamic binding and polymorphism. We also provide an acceptance test to check the feasibility and correctness of your design. 
+See folder `src` for some program text to help you with your design.  In the Labtest you will apply the undo/redo design pattern for a chess board with only two pieces, e.g. a king (K) and a bishop (B). The undo/redo design pattern is built on top of basic OO constructs such as static typing, dynamic binding and polymorphism. We also provide an acceptance test to check the feasibility and correctness of your design. You will want to write many of you own during your prep. 
+
+You will need to be competent in the use of the IDE with ETF (as in all the lab exercises until now). 
 
 In job interviews with companies, students are often asked questions involving the movements of pieces in games such as kings, bishops or other game pieces. So think of this as a job interview question. 
 
