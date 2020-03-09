@@ -1,0 +1,106 @@
+  ok, K = King and B = Bishop:
+->play(5)
+  ok:
+  K____
+  _____
+  _____
+  _____
+  ____B
+->play(8)
+  game already started:
+->move_bishop([4, 3])
+  invalid move:
+->move_bishop([1, 1])
+  invalid move:
+->move_bishop([2, 2])
+  ok:
+  K____
+  _B___
+  _____
+  _____
+  _____
+->move_bishop([3, 1])
+  ok:
+  K____
+  _____
+  B____
+  _____
+  _____
+->move_king([1, 8])
+  invalid move:
+->move_king([2, 2])
+  ok:
+  _____
+  _K___
+  B____
+  _____
+  _____
+->move_king([3, 1])
+  invalid move:
+->move_king([3, 2])
+  ok:
+  _____
+  _____
+  BK___
+  _____
+  _____
+->undo
+  ok:
+  _____
+  _K___
+  B____
+  _____
+  _____
+->undo
+  ok:
+  K____
+  _____
+  B____
+  _____
+  _____
+->undo
+  ok:
+  K____
+  _B___
+  _____
+  _____
+  _____
+->undo
+  ok:
+  K____
+  _____
+  _____
+  _____
+  ____B
+->undo
+  no more to undo:
+->redo
+  ok:
+  K____
+  _B___
+  _____
+  _____
+  _____
+->redo
+  ok:
+  K____
+  _____
+  B____
+  _____
+  _____
+->redo
+  ok:
+  _____
+  _K___
+  B____
+  _____
+  _____
+->redo
+  ok:
+  _____
+  _____
+  BK___
+  _____
+  _____
+->redo
+  nothing to redo:

@@ -1,0 +1,23 @@
+-- acceptance test for K = King and B = Bishop
+-- undo/redo design pattern
+play(5)
+play(8)
+move_bishop([4,3]) 
+move_bishop([1,1]) 
+move_bishop([2,2]) 
+move_bishop([3,1]) 
+move_king([1,8])
+move_king([2,2])
+move_king([3,1])
+move_king([3,2])
+undo
+undo
+undo
+undo
+undo
+redo
+redo
+redo
+redo
+redo
+

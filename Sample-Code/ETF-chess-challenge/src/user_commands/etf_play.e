@@ -17,15 +17,13 @@ feature -- command
 		require else
 			play_precond(size)
 		local
-			size32: INTEGER
 			square: SQUARE
     	do
 			-- setup board
 			if not model.board.started then
-				size32 := size.as_integer_32
-				model.make_board (size32)
+				model.make_board (size)
 				model.board.set_started
-				create square.make (size32,size32)
+				create square.make (size,size)
 				model.set_message ("ok")
 			else
 				model.set_message("game already started")
