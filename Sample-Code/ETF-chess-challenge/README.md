@@ -73,9 +73,15 @@ Some of the infrastructure is provided, so that you can focus on the undo/redo d
 
 There is at least one error in the code we provide, but you should easily be able to see where this is. 
 
-## What you must do
+## What you must do in this Prep
 
-Start by getting the acceptance test below working. Then write you own syntactically correct acceptance tests and ensure that the project (a) compiles and (b) is correct in all respects and (c) never crashes with exceptions, or non-termination. 
+Start by using `etf -new` to generate skeleton code for your project.
+
+The next job is to get the provided acceptance test below working. 
+
+Then write your own syntactically correct acceptance tests and ensure that the project (a) compiles and (b) is correct in all respects and (c) never crashes with exceptions, or non-termination. 
+
+User regression testing religiously.  
 
 **Hint**: You may wish to use the IDE to automatically generate the BON class diagram (or UML if you prefer). This diagram will assist you in understanding the architecture of the system,
 
@@ -225,5 +231,14 @@ play(size: SIZE)
 
 
 
+# Regression Testing 
+
+If you do Regression Testing often you will delight your customers and make sure that when a defect is fixed, it stays fixed. 
+
+(Wikipedia): As software is updated or changed, or reused on a modified target, emergence of new faults and/or re-emergence of old faults is quite common. Sometimes re-emergence occurs because a fix gets lost through poor revision control practices (or simple human error in revision control). Often, a fix for a problem will be "fragile" in that it fixes the problem in the narrow case where it was first observed but not in more general cases which may arise over the lifetime of the software. Frequently, a fix for a problem in one area inadvertently causes a software bug in another area. Finally, it may happen that, when some feature is redesigned, some of the same mistakes that were made in the original implementation of the feature are made in the redesign.
+
+Therefore, in most software development situations, it is considered good coding practice, when a bug is located and fixed, to record a test that exposes the bug and re-run that test regularly after subsequent changes to the program. Although this may be done through manual testing procedures using programming techniques, it is often done using automated testing tools. Such a test suite contains software tools that allow the testing environment to execute all the regression test cases automatically; some projects even set up automated systems to re-run all regression tests at specified intervals and report any failures (which could imply a regression or an out-of-date test). 
+
+In our case we seek to compile and test often. If 10 minutes has gone by then you should already consider a re-compile and a run of the regression tests. 
 
  
