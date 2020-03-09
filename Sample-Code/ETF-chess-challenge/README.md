@@ -46,6 +46,18 @@ The redo/undo design pattern is discussed in OOSC2 chapter 21, with the followin
  
 ## Design of the Model Cluster
 
+Below is the start of a possible design where we use the IDE BON diagramming tool. 
+
+![BON Class Diagram](docs/chess.png)
+
+The design follows the basic **UI-View/Model pattern** in which commands at the user interface are handled using a **command design pattern** (no preconditions as the user may try to make an illegal move so our design must handle all syntactically correct inputs in a **tolerant** fashion). These user commands depend on the model operations such as MOVE\_KING or MOVE\_BISHOP (which may have **demanding** preconditions as they are only invoked for meaningful semantic moves). The user commands depend upon the model classes, but **not** vice versa. 
+
+![UI-View/Model](docs/view.png)
+
+Classes in the model cluster can always access the board and it's dependents (such as class HISTORY etc.) via the singleton design pattern. 
+
+The classes can be organized in relevant sub-clusters as shown below. 
+
 ![Model Cluster](docs/model-cluster.png)
 
 In the starter project, the king moves on the board but not the bishop to give you some idea of the basic design. The deferred class MOVE* has a template pattern for moving different pieces on the board and also specifies deferred routines for undo and redo. Different pieces effect `directions` differently, to make use of polymorphism and dynamic binding. 

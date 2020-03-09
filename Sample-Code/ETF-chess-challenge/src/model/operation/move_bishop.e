@@ -37,7 +37,7 @@ feature -- queries
 		local
 			x,y: INTEGER
 		do
-			
+			-- To Do
 		end
 
 
@@ -46,18 +46,18 @@ feature -- commands
 
 	execute
 		do
-				board.move_bishop (position)
+				-- To Do
 		end
 
 	undo
 		do
 
-				board.move_bishop (old_position)
+				-- To Do
 		end
 
 	redo
 		do
-			execute
+			-- To Do
 		end
 
 feature
