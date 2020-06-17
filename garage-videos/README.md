@@ -12,7 +12,7 @@ We have various customers who run a showroom for new and old cars.
 * There are specialized kinds of cars e.g. electric cars
 * Search for cars in different ways
 * Ensure the correctness and consistency of the data
-* Ensure that the system is maintainable 
+* Ensure that the design is organized in a coherent and maintainable fashion
 * Uniformly iterate over the collection of cars in the garage (e.g. at stock taking time for balance sheet and taxes)
 
 ## garage1
