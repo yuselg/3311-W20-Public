@@ -105,7 +105,7 @@ The supplier has the benefit of the precondition; the code need not be polluted 
 
 If there is a precondition violation, then that is the fault of the client. If there is a postcondition or invariant violation, then that is fault of the supplier. There is thus a contract between the client and the supplier, with benefits and obligations on each. 
 
-## Demonstrating the correctness
+## Demonstrating the correctness of the implementation
 
 ```eiffel
 gcd(m, n: INTEGER): INTEGER
