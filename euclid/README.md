@@ -9,7 +9,11 @@ Fom Wikipedia: In mathematics, the Euclidean algorithm is an efficient method fo
 
 ![](docs/gcd-blackbox.png)
 
-## Computing the GCD
+What goes inside the black box? (in this case the "blue box"). 
+
+Some code written in programming languages like C and Java. 
+
+## Implementing the GCD
 
 A C program to compute the GCD might look as follows
 
@@ -38,6 +42,7 @@ int main()
 It is better to wrap the algorithm in a sub-routine. In Java, sub-routines are called methods; it might look as follows:
 
 ```java
+//recursive version
 import java.util.Scanner;
 public class Euclid {
 	public static int gcd(int x, int y) {
@@ -52,7 +57,7 @@ public class Euclid {
 		if (x % y == 0) {
 			return y;
 		} else {
-			return euclid(y, x % y);
+			return gcd(y, x % y);
 		}
 	}
 
@@ -65,18 +70,22 @@ public class Euclid {
 
 ## Question: But, can we demonstrate correctness?
 
+How sure are we that these C or Java implementations terminate? If they do terminate, how do we know if they terminate with the correct result. 
+
+### Testing
+
 Well we can test the `gcd(m,n)` method. For example, we can provide inputs `m := 111` and `n := 259`, and then we can check if the output is `gcd(111,259) = 37`. 
 
-If there is an error in the code, then we can fix it. But the problem is:
+If there is an error in the code, then we can fix it. But here is the concern with testing alone:
 
 > Dijkstra: testing can show the presence of bugs, but not their absence. 
 
-* It does not matter how many tests we run, we can never exhaustively check the correctness of the algorithm. 
+* It does not matter how many tests we run, we can never exhaustively check the correctness of the algorithm. There are just too many combinations of inputs!
 * To write a test, we also need to (manually?) compute the answer, a time consuming process.
 
 > Formal methods are the **only** reliable way to achieve security and privacy in computer systems. Formal methods, by modeling computer systems and adversaries, can prove that a system is immune to entire classes of attacks (provided the assumptions of the models are satisfied). By ruling out entire classes of potential attacks, formal methods offer an alterna- tive to the “cat and mouse” game between adversaries and defenders of computer systems.
 > 
-Formal methods can have this effect because they apply a scientific method. They provide scientific foundations in the form of precise adversary and system models, and derive cogent conclusions about the possible behaviors of the system as the adversary interacts with it. This is a central aspect of providing a science of security. [Report on the NSF Workshop on Formal Methods for Security, 2016].
+Formal methods can have this effect because they apply a scientific method. They provide scientific foundations in the form of precise adversary and system models, and derive cogent conclusions about the possible behaviors of the system as the adversary interacts with it. This is a central aspect of providing a science of security. [**Report on the NSF Workshop on Formal Methods for Security, 2016**].
 
 For a formal proof Euclid's algorithm in TLA+, see [Lamport, 2011](docs/eclid.pdf)
 
