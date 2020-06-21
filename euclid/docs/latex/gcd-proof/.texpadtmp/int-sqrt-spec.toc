@@ -1,0 +1,6 @@
+\contentsline {section}{\numberline {1}Some Program}{1}
+\contentsline {section}{\numberline {2} Prove that $P$ is true initially}{2}
+\contentsline {section}{\numberline {3}Prove that each iteration of the loop preserves $P$}{2}
+\contentsline {section}{\numberline {4}Prove that $P \land \lnot B \mathbin \Rightarrow R$, i.e. the postcondition}{3}
+\contentsline {section}{\numberline {5}Show that the variant $t$ is bounded from below}{3}
+\contentsline {section}{\numberline {6}Show that the variant decreases in each iteration}{3}

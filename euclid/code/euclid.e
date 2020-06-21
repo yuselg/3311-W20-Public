@@ -48,20 +48,20 @@ feature -- euclid
 				Result = max(divisors(m) |/\| divisors(n))
 		end
 
-	divisors(q: INTEGER): SET[INTEGER]
+	divisors(n: INTEGER): SET[INTEGER]
 			-- return set of divisors of `q`
-		require q > 0
+		require n >= 1
 		do
 			create Result.make_empty
-			across 1 |..| q is d loop
-				if q \\ d = 0 then -- q is divisible by d
+			across 1 |..| n is d loop
+				if n \\ d = 0 then -- q is divisible by d
 					Result.extend (d)
 				end
 
 			end
 		ensure
 			divisors_set: -- Result = {d ∈ 1..q | is_divisible (q, d)}
-			Result ~ (range(1,q)| agent is_divisible (q, ?))
+			Result ~ (range(1,n)| agent is_divisible (n, ?))
 		end
 
 
@@ -107,6 +107,8 @@ feature {ES_TEST} -- helper queries
 				end
 			end
 		ensure class
+			s.has (Result)
+			across s is i all Result >= i  end
 		end
 
 end
