@@ -33,6 +33,7 @@ feature {NONE} -- Initialization
 
 
 feature -- tests
+	br: STRING = "<br/>"
 
 	t0: BOOLEAN
 		local
@@ -57,7 +58,10 @@ feature -- tests
 			create euclid
 			gcd := euclid.gcd (111, 259)
 			Result := gcd = 37
---			assert_equal ("gcd error", 37, gcd)
+			check Result end
+			-- the following will cause a precondition violation
+			sub_comment(br + "gcd (-111, 259) results in a precondition violation")
+			gcd := euclid.gcd (-111, 259)
 		end
 
 

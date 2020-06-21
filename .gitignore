@@ -7,3 +7,6 @@ __pycache__/
 
 # Mac
 .DS_Store
+
+# Latex
+.texpadtmp/

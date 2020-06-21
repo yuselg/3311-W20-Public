@@ -47,6 +47,9 @@
 \date{19 June 2020}
 
 \maketitle
+\tableofcontents
+
+\section{Formal Methods}
 
 In mathematics, the Euclidean algorithm is an efficient method for computing the greatest common divisor (GCD) of two integers, the largest number that divides them both without a remainder. It is named after the ancient Greek mathematician Euclid, who first described it in his Elements (c. 300 BC). It is used in cryptographic computations to ensure the security of a variety of systems (\textit{Wikipedia}). 
 
@@ -57,50 +60,60 @@ Formal methods enable reasoning from logical or mathematical specifications of t
 \textit{Report on the NSF Workshop on Formal Methods for Security}, 2016, \url{https://arxiv.org/pdf/1608.00678.pdf}.}
 \end{quote}
 
-\section{Verifying Euclid's algorithm}
+\section{Using Formal Methods to Verify Euclid's algorithm}
 
-\noindent To understand the use of formal methods as simply as possible, let's look at Euclid's algorithm in Fig.~\ref{fig:gcd-c}, implemented in Golang.\footnote{%
-Taken from \url{https://play.golang.org}.} 
+\noindent To understand the use of formal methods, let's look at a simple example. In Fig.~\ref{fig:gcd-c}, Euclid's algorithm is implemented in Golang.\footnote{%
+Try it at \url{https://play.golang.org}.} 
 
 \begin{figure}[!htb]
 \begin{framed}
-\caption{GCD implemented in Go}
-\label{fig:gcd-c}
 \begin{Verbatim}[fontsize=\small]
+// golang
 package main
+
 import (
 	"fmt"
 )
 
 // greatest common divisor (GCD) via Euclidean algorithm
+// use only addition and subtraction 
 func gcd(m, n int) int {
-	for n != 0 {
-		t := n
-		n = m % n
-		m = t
+	x := m
+	y := n
+	for x != y {		// while loop
+		if x < y {
+			y = y - x
+		} else {
+			x = x - y
+		}
 	}
-	return m
+	return x
 }
 
 func main() {
-	fmt.Println(gcd(111, 259))
+	fmt.Println(gcd( 111, 259))
+	fmt.Println(gcd(-111, 259))
 }	
 \end{Verbatim}
 \end{framed}
+The statement \textcolor{red}{\e{fmt.Println(gcd(-111, 259))}} is non-terminating. One might add an assert or defensive programming, neither of which is ideal. 
+\caption{GCD implemented in Go}
+\label{fig:gcd-c}
+\noindent\rule{\textwidth}{0.5pt}
 \end{figure}
 
 %%%%%%%%%%%%%
 
-\subsection{Testing}
+\subsection{Testing can show the presence of bugs, but not their absence}
 
-There is a loop in the code. How sure are we that this Go implementation always terminates? If it does terminate, how do we know it always terminates with the correct result?
+There is a while loop in the code of Fig.~\ref{fig:gcd-c}. How sure are we that this implementation always terminates? If it does terminate, how do we know it always terminates with the correct result?
 
 \begin{figure*}[hbt]
   \includegraphics[width=0.8\textwidth]{images/gcd.png}
 \end{figure*}
 
 
-We can test a $gcd(m,n)$ sub-routine. For example, we can provide inputs $m := 111$ and $n := 259$, and then we can check if the output is $gcd(111,259) = 37$. 
+We can test the $gcd(m,n)$ subroutine. For example, we can provide inputs $m := 111$ and $n := 259$, and then we can check if the output is $gcd(111,259) = 37$. 
 
 If we discover an an error in the code, then we can fix it. But here is the concern with testing alone: \textit{Dijkstra}: ``testing can show the presence of bugs, but not their absence". 
 
@@ -119,10 +132,21 @@ Formal methods can have this effect because they apply a scientific method. They
 
 For a formal proof Euclid's algorithm in TLA+, see \url{https://lamport.azurewebsites.net/pubs/euclid.pdf}.  Tools such as TLA+ has been used at Amazon, Microsoft and elsewhere. 
 
-\section{Using Design by Contract in Eiffel}
+\section{Correctness needs a Specification}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-Consider the 
+To judge whether code is correct, we need a \textbf{specification}---this is something different from the Go \textbf{implementation} in Fig.~\ref{fig:gcd-c}. A specification is the software engineering equivalent of blue-prints in other engineering disciplines.
+
+\begin{quote}
+
+Our recommendations are threefold, ... First, computer science majors, many of whom will be the designers and implementers of next-generation systems, should get a grounding in logic, ... “To designers of complex systems, the need for formal specs should be as obvious as the need for blueprints of a skyscraper. (Lesley Lamport) 
+The methods, tools, and materials for educating students about ``formal specs" are ready for prime time. Mechanisms such as ``design by contract," now available in mainstream programming languages, should be taught as part of introductory programming, as is done in the introductory programming language sequence at Carnegie Mellon University. $\cdots$ We are failing our computer science majors if we do not teach them about the value of formal specifications.\footnote{%
+``Teach Foundational Language Principles", Thomas Ball and Benjamin Zorn , \textit{Communications of the ACM}, May 2015, Vol. 58 No. 5, Pages 30-31. \url{https://cacm.acm.org/magazines/2015/5/186023-teach-foundational-language-principles/fulltext}. 
+
+Thomas Ball (tball@microsoft.com) is a principal researcher and co-manager of the Research in Software Engineering (RiSE) group at Microsoft Research, Redmond, WA. Benjamin Zorn (zorn@microsoft.com) is a principal researcher and co-manager of the Research in Software Engineering (RiSE) group at Microsoft Research, Redmond, WA.} 
+\end{quote}
+
+In Eiffel, we can specify the GCD algorithm using Design by Contract (DbC), as shown in Fig.~\ref{fig:gcd-spec}.
 
 \begin{figure}[!htb]
 \begin{framed}
@@ -133,16 +157,15 @@ gcd(m, n: INTEGER): INTEGER
 	require
 		$m \geq 1 \land n \geq 1$ -- at least should not be zero
 	ensure 
-			Result = gcd_spec(m,n)
+			gcd_spec: Result = $max(divisors(m) \binter divisors(n))$
 	end
 \end{lstlisting}
 \end{framed}
 
-
 The \e{require} clause is a precondition: $gcd$ is a partial function that is not well-defined for all possible inputs. For example, what is $gcd(0,0)$? So the precondition documents the fact that a client using this function must check that the precondition is true before calling it. Without loss of generality, our precondition is $m \geq 1 \land n \geq 1$.
 
 \smallskip
-The \e{ensure} clause is a postcondition. It asserts that the function must terminate with this condition true. But how shall we write this postcondition? In general, for that we need to define what a GCD is using predicate logic, set theory etc.
+The \e{ensure} clause is a postcondition. It asserts that the function must terminate with this condition true. But how shall we write this postcondition? In general, for that we need to define what a GCD is using predicate logic and set theory (with the help of the Mathmodels library).  
 
 \begin{itemize}
   \item $divisors(n)$ is the set of all divisors of the number $n$. 
@@ -157,23 +180,31 @@ Formally, using set theory and predicate logic, we write
   \item $gcd\_spec(m,n) \;\defi\; max(divisors(m) \binter divisors(n))$.
 \end{itemize}
 
-These specfications can all be written in an Eiffel-like form as follows:
+These specifications can themselves be written in an Eiffel-like form, e.g. $max(S)$ is as follows:
 
 \begin{framed}
-	These specifications may all be written in an Eiffel-like style as follows:
 \begin{lstlisting}[language=eiffel]
 max(s: SET[INTEGER]): INTEGER
 	require $s \neq \emptyset$
 	ensure $(Result \in s) \land (\forall i \in s \mid Result \geq i)$
 \end{lstlisting}
 \end{framed}
-	
 \caption{Specification of the GCD query in Eiffel}
 \label{fig:gcd-spec}
 \end{figure}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-%%%%%%%%%%%%%
+If the GCD query is invoked by a client in a manner that violates the precondition (e.g. \e{gcd(-111,259)}) then this illegal call will automatically terminate with a precondition violation:
 
+\includegraphics[width=.8\textwidth]{images/precondition-violate.png}
+
+\subsection{Termination and Correctness} 
+
+But we still need to prove that in the case the client makes a legal call, the GCD query terminates,  and terminates with the correct result (i.e. satisfies the specification).
+
+To prove termination and correctness, we must provide the implementation with a loop \textbf{variant} (i.e. $x +y$) and \textbf{loop invariant} (i.e. $gcd\_spec(x,y) = gcd\_spec(m,n)$) as shown in Fig.~\ref{fig:gcd}.
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 \begin{figure}[!htb]
 \begin{framed}
 \caption{Specification and implementation of the GCD query in Eiffel}
@@ -206,20 +237,18 @@ gcd(m, n: INTEGER): INTEGER
 	ensure 
 			Result = gcd_spec(m,n)
 	end
-\end{lstlisting}
-The program text incorporates \textbf{specification} and \textbf{implementation}. 
-\begin{itemize}
-\item Specification: $gcd\_spec(x,y) \;\defi\; max(divisors(m) \binter divisors(n))$.  The function $gcd\_spec(x,y)$ descibes mathematically (using predicate logic and set theory) what a greatest common divider is, where $divisors(q) \defi \{d \in 1 \upto q \mid divides(d, q)\}$ and where $divides(d, q)$ is true if $d$ divides $q$, i.e. $p \mod d = 0$. In Eiffel this is specified using our Mathmodels library.
-
-The \textbf{require} clause introduces a precondition; at the very least $gcd(0,0)$ is not well-defined. The ensure clause specifies the \textbf{postcondition}. The query must terminate with the postcondition true (for all inputs that satisfy the precondition).
-
-\item Implementation: the body of the $gcd(m,n)$ query is the efficient code between the key word \textbf{do} up to \textbf{ensure}. The code uses only addition and subtraction. 
-\end{itemize}
+\end{lstlisting} 
 \end{framed}
 \end{figure}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{ Prove that $P$ is true initially}
+
+\section{Proof of Termination and Correctness}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+There are five proof obligations that must be discharged to prove that the loop terminates, and terminates correctly. 
+
+\subsection{ Prove that $P$ is true initially}
 	
 \begin{calculation}
 	wp(a:=0, P)
