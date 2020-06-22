@@ -1,3 +1,6 @@
+The readme below is still under development. See
+[PDF](https://github.com/yuselg/3311-W20-Public/blob/master/euclid/docs/latex/gcd.pdf).
+
 # Verification of Euclid's algorithm for GCD(m,n)
 
 Fom Wikipedia: In mathematics, the Euclidean algorithm is an efficient method for computing the greatest common divisor (GCD) of two integers, the largest number that divides them both without a remainder. It is named after the ancient Greek mathematician Euclid, who first described it in his Elements (c. 300 BC). It is used in cryptographic computations to ensure the security of a variety of systems. 

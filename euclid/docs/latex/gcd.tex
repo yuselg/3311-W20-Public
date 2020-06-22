@@ -57,18 +57,6 @@
 
 In mathematics, the Euclidean algorithm is an efficient method for computing the greatest common divisor (GCD) of two integers, the largest number that divides them both without a remainder. It is named after the ancient Greek mathematician Euclid, who first described it in his Elements (c. 300 BC). It is used in cryptographic computations to ensure the security of a variety of systems (\textit{Wikipedia}). 
 
-\begin{quote}
-Cybersecurity is everyone’s problem. The target may be the electric grid, government systems storing sensitive personnel data, intellectual property in the defense industrial base, or banks and the financial system. Adversaries range from small-time criminals to nation states and other determined opponents who will explore an ingenious range of attack strategies. And the damage may be tallied in dollars, in strategic advantage, or in human lives. Systematic, secure system design is urgently needed, and we believe that rigorous formal methods are essential for substantial improvements.
-
-Formal methods enable reasoning from logical or mathematical specifications of the behaviors of computing devices or processes; they offer rigorous proofs that all system behaviors meet some desirable property. They are crucial for security goals, because they can show that no attack strategy in a class of strategies will cause a system to misbehave. Without requiring piecemeal enumeration, they rule out a range of attacks. They offer other benefits too: Formal specifications tell an implementer unambiguously what to produce, and they tell the subsequent user or integrator of a component what to rely on it to do. Since many vulnerabilities arise from misunderstandings and mismatches as components are integrated, the payoff from rigorous interface specifications is large.\footnote{%
-\textit{Report on the NSF Workshop on Formal Methods for Security}, 2016, \url{https://arxiv.org/pdf/1608.00678.pdf}.}
-\end{quote}
-
-\section{Using Formal Methods to Verify Euclid's algorithm}
-
-\noindent To understand the use of formal methods, let's look at a simple example. In Fig.~\ref{fig:gcd-c}, Euclid's algorithm is implemented in Golang.\footnote{%
-Try it at \url{https://play.golang.org}.} 
-
 \begin{figure}[!htb]
 \begin{framed}
 \begin{Verbatim}[fontsize=\small]
@@ -106,11 +94,29 @@ The statement \textcolor{red}{\e{fmt.Println(gcd(-111, 259))}} is non-terminatin
 \noindent\rule{\textwidth}{0.5pt}
 \end{figure}
 
+\begin{quote}
+Cybersecurity is everyone’s problem. The target may be the electric grid, government systems storing sensitive personnel data, intellectual property in the defense industrial base, or banks and the financial system. Adversaries range from small-time criminals to nation states and other determined opponents who will explore an ingenious range of attack strategies. And the damage may be tallied in dollars, in strategic advantage, or in human lives. Systematic, secure system design is urgently needed, and we believe that rigorous formal methods are essential for substantial improvements.
+
+Formal methods enable reasoning from logical or mathematical specifications of the behaviors of computing devices or processes; they offer rigorous proofs that all system behaviors meet some desirable property. They are crucial for security goals, because they can show that no attack strategy in a class of strategies will cause a system to misbehave. Without requiring piecemeal enumeration, they rule out a range of attacks. They offer other benefits too: Formal specifications tell an implementer unambiguously what to produce, and they tell the subsequent user or integrator of a component what to rely on it to do. Since many vulnerabilities arise from misunderstandings and mismatches as components are integrated, the payoff from rigorous interface specifications is large.\footnote{%
+\textit{Report on the NSF Workshop on Formal Methods for Security}, 2016, \url{https://arxiv.org/pdf/1608.00678.pdf}.}
+\end{quote}
+
+To understand the use of formal methods, we examine a simple example. In the sequel, we provide and explain the text of an Eiffel program that contains specification and  implementation for Euclid's GCD algorithm. The implementation can be checked against the specification via runtime assertion checking.\footnote{%
+See \url{https://github.com/yuselg/3311-W20-Public/tree/master/euclid/code/eiffel}.}. 
+
+
+
+\section{Using Formal Methods to Verify Euclid's algorithm}
+
+\noindent In Fig.~\ref{fig:gcd-c}, Euclid's algorithm is implemented in Golang.\footnote{%
+Try it at \url{https://play.golang.org}.} 
+
+
 %%%%%%%%%%%%%
 
 \subsection{Testing can show the presence of bugs, but not their absence}
 
-There is a while loop in the code of Fig.~\ref{fig:gcd-c}. How sure are we that this implementation always terminates? If it does terminate, how do we know it always terminates with the correct result?
+There is a ``while" loop in the code of Fig.~\ref{fig:gcd-c}. How sure are we that this implementation always terminates? If it does terminate, how do we know it always terminates with the correct result?
 
 \begin{figure*}[hbt]
   \includegraphics[width=0.8\textwidth]{images/gcd.png}
@@ -126,7 +132,7 @@ If we discover an an error in the code, then we can fix it. But here is the conc
   \item To write a test, we also need to (manually?) compute the answer, a time consuming process. For example, to test gcd(111,259), we had to first manually compute the GCD by hand.\footnote{GCD is built-in in most programming languages. But we are assuming that, for the sake of illustration, that we are computing a new function, one for which there is no oracle.}
 \end{itemize}
 
-The earlier NSF report perhaps words it too strongly, but there is more than a grain of truth to it. 
+The earlier report (NSF Workshop on Formal Methods for Security) perhaps words it too strongly, but there is more than a grain of truth to it. Here is further quote from that report:
 
 \begin{quote}
 Formal methods are the only reliable way to achieve security and privacy in computer systems. Formal methods, by modeling computer systems and adversaries, can prove that a system is immune to entire classes of attacks (provided the assumptions of the models are satisfied). By ruling out entire classes of potential attacks, formal methods offer an alternative to the “cat and mouse” game between adversaries and defenders of computer systems.
@@ -136,7 +142,7 @@ Formal methods can have this effect because they apply a scientific method. They
 
 For a formal proof Euclid's algorithm in TLA+, see \url{https://lamport.azurewebsites.net/pubs/euclid.pdf}.  Tools such as TLA+ has been used at Amazon, Microsoft and elsewhere. 
 
-\section{Correctness needs a Specification}
+\section{Correctness is relative to a Specification}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 To judge whether code is correct, we need a \textbf{specification}---this is something different from the Go \textbf{implementation} in Fig.~\ref{fig:gcd-c}. A specification is the software engineering equivalent of blue-prints in other engineering disciplines.
@@ -146,7 +152,7 @@ To judge whether code is correct, we need a \textbf{specification}---this is som
 Our recommendations are threefold, ... First, computer science majors, many of whom will be the designers and implementers of next-generation systems, should get a grounding in logic, ... “To designers of complex systems, the need for formal specs should be as obvious as the need for blueprints of a skyscraper. (Lesley Lamport) 
 
 The methods, tools, and materials for educating students about ``formal specs" are ready for prime time. Mechanisms such as ``design by contract," now available in mainstream programming languages, should be taught as part of introductory programming, as is done in the introductory programming language sequence at Carnegie Mellon University. $\cdots$ We are failing our computer science majors if we do not teach them about the value of formal specifications.\footnote{%
-``Teach Foundational Language Principles", Thomas Ball and Benjamin Zorn , \textit{Communications of the ACM}, May 2015, Vol. 58 No. 5, Pages 30-31. \url{https://cacm.acm.org/magazines/2015/5/186023-teach-foundational-language-principles/fulltext}. 
+``Teach Foundational Language Principles", Thomas Ball and Benjamin Zorn, \textit{Communications of the ACM}, May 2015, Vol. 58 No. 5, Pages 30-31. \url{https://cacm.acm.org/magazines/2015/5/186023-teach-foundational-language-principles/fulltext}. 
 
 Thomas Ball (tball@microsoft.com) is a principal researcher and co-manager of the Research in Software Engineering (RiSE) group at Microsoft Research, Redmond, WA. Benjamin Zorn (zorn@microsoft.com) is a principal researcher and co-manager of the Research in Software Engineering (RiSE) group at Microsoft Research, Redmond, WA.} 
 \end{quote}
@@ -279,8 +285,12 @@ In many cases, $\WD(exp) \1\equiv true$; thus, $R[x := exp] \land \WD(exp) \1\eq
 
 \section{Proof of Termination and Correctness}\label{proofs}
 
-Below, we provide the fragment of the GCD code with the loop---annotated with Hoare assertion conditions (shown in \textcolor{red}{red}): 
+In Fig.~\ref{fig:gcd-loop}, we provide the fragment of the GCD code with the loop---annotated with Hoare assertion conditions (shown in \textcolor{red}{red}): 
 
+\begin{figure}[!htb]
+\begin{framed}
+	\caption{The GCD loop}
+\label{fig:gcd-loop}
 \begin{lstlisting}[language=eiffel,numbers=left]
 from
 	x, y := m, n  -- simultaneous assignment
@@ -299,7 +309,9 @@ variant x + y
 end
 $\assert{ x = y \land inv }$
 $\assert{ x = gcd\_spec(m,n) }$
-\end{lstlisting} 
+\end{lstlisting}
+\end{framed}
+\end{figure}
 
 
 There are five proof obligations that must be discharged to prove that the loop terminates, and terminates correctly. The first three proof obligations have to do with partial correctness, i.e. if we can assume termination, then:
@@ -423,7 +435,9 @@ There is a ``lightweight" method of checking that the proofs hold for a bounded 
 
 The Eiffel runtime will automatically check all the assertions of Section~\ref{proofs}. This will provide us with confidence that the loop variant and invariant are well-posed and that the formal verification is feasible.
 
-In addition, any time we execute the query $gcd(m,n)$, all the contracts will be automatically checked, and violations will be reported.   
+In addition, any time we execute the query $gcd(m,n)$, all the contracts will be automatically checked, and violations will be reported. 
+
+The Eiffel program text with the specification and  implementation is provided at \url{https://github.com/yuselg/3311-W20-Public/tree/master/euclid/code/eiffel}. 
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
