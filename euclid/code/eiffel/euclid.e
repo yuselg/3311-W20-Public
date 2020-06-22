@@ -30,6 +30,7 @@ feature -- euclid
 				y := n
 			invariant -- gcd_spec(x,y) = max(divisors(x) ∩ divisors(y))
 				gcd_spec(x,y) = gcd_spec(m,n)
+				x >= 1 and y >= 1
 			until
 				x = y
 			loop

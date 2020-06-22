@@ -15,6 +15,8 @@
 \newcommand{\term}[1]{\textit{#1}}
 
 \usepackage{amsmath}
+\usepackage{amsthm}
+%\usepackage{mathtools}
 
 \usepackage{fancyhdr,lastpage}
 \lhead{\rm Greatest Common Divider in Eiffel}
@@ -34,6 +36,8 @@
 \def\Nl{\mathbb{N}}
 \def\Bl{\mathbb{B}}
 \def\St{\mathbb{S}}
+\def\WD{\textrm{WD}}
+\def\assert#1{\textcolor{red}{ {\{} {#1} {\}}}}
 
 \usepackage{stmaryrd}
 \def\b{\llbracket \rrbracket}
@@ -44,7 +48,7 @@
 
 \title{Greatest Common Divider (Eiffel)}
 \author{JSO}
-\date{19 June 2020}
+\date{\today}
 
 \maketitle
 \tableofcontents
@@ -140,7 +144,8 @@ To judge whether code is correct, we need a \textbf{specification}---this is som
 \begin{quote}
 
 Our recommendations are threefold, ... First, computer science majors, many of whom will be the designers and implementers of next-generation systems, should get a grounding in logic, ... “To designers of complex systems, the need for formal specs should be as obvious as the need for blueprints of a skyscraper. (Lesley Lamport) 
-The methods, tools, and materials for educating students about ``formal specs" are ready for prime time. Mechanisms such as ``design by contract," now available in mainstream programming languages, should be taught as part of introductory programming, as is done in the introductory programming language sequence at Carnegie Mellon University. $\cdots$ We are failing our computer science majors if we do not teach them about the value of formal specifications.\footnote{%
+
+The methods, tools, and materials for educating students about ``formal specs" are ready for prime time. Mechanisms such as ``design by contract," now available in mainstream programming languages, should be taught as part of introductory programming, as is done in the introductory programming language sequence at Carnegie Mellon University. $\cdots$ We are failing our computer science majors if we do not teach them about the value of formal specifications.\footnote{%
 ``Teach Foundational Language Principles", Thomas Ball and Benjamin Zorn , \textit{Communications of the ACM}, May 2015, Vol. 58 No. 5, Pages 30-31. \url{https://cacm.acm.org/magazines/2015/5/186023-teach-foundational-language-principles/fulltext}. 
 
 Thomas Ball (tball@microsoft.com) is a principal researcher and co-manager of the Research in Software Engineering (RiSE) group at Microsoft Research, Redmond, WA. Benjamin Zorn (zorn@microsoft.com) is a principal researcher and co-manager of the Research in Software Engineering (RiSE) group at Microsoft Research, Redmond, WA.} 
@@ -243,96 +248,185 @@ gcd(m, n: INTEGER): INTEGER
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Proof of Termination and Correctness}
+\section{Hoare Logic}
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-There are five proof obligations that must be discharged to prove that the loop terminates, and terminates correctly. 
+ We use the notation of a Hoare triple $\{Q\} S \{R\}$ where $Q$ is a precondition, $S$ is a program statement (i.e. code) and $R$ is a postcondition. 
 
-\subsection{ Prove that $P$ is true initially}
+\begin{quote}
+[HT] Hoare Triple $\{Q\} S \{R\}$: Execution of the program statement $S$ begun in a state satisfying predicate $Q$ must (1) terminate, and (2) terminate in a state satisfying the predicate $R$. 	
+\end{quote}
+
+For example, let $S$ be the assignment statement ``$x := x - y$". Then we might write $\{x > 2y\}\; x := x - y \;\{x > y\}$. This Hoare Triple (HT) is \textit{valid}, i.e. execution of $x := x - y$ begun in a state satisfying $x > 2y$ is guaranteed to terminate in a state satisfying $x > y$.
+
+The following HTA (Hoare Triple Assignment) Rule captures this type of logic:
+
+\begin{gather}
+\{R[x := exp] \land \WD(exp)\}\; x := exp \;\{R\} \tag{HTA}
+\end{gather}
+
+\noindent In the above, $R[x := exp]$ is a predicate similar to $R$, except that all free variables in $R$ are replaced with expression $exp$.\footnote{Provided there is no illegal capture, see \cite{Tourlakis2008}} 
+
+$\WD(exp)$ means that $exp$ must be well defined. For example, the expression $1/x$ is not well-defined if $x=0$; it is a partial function, not a total function. Thus $\WD(1/x) \1\equiv x \neq 0$.
+
+In many cases, $\WD(exp) \1\equiv true$; thus, $R[x := exp] \land \WD(exp) \1\equiv  R[x := exp]$. We know from elsewhere that $R[x := exp] \land \WD(exp)$ is the weakest precondition such that executing $x := exp$ terminates with R true. For simplicity, we will use $R[x := exp]$ as the weakest precondition---and, we only mention $\WD(exp)$ in a context in which $exp$ is a partial function. The proof obligation HPA-PO to show that an assignment satisfies its specification is as follows:
+\begin{quote}
+[HTA-PO] To prove that the assignment $x := exp$ satisfies the Hoare specification $\{Q\}\; x := exp \;\{R\}$, it suffices to show that $Q \1\limp R[x :=exp]$. 
+%
+%We thus write: $\{Q\}\; x := exp \;\{R\} \1\equiv (Q \1\limp R[x :=exp])$
+\end{quote}
+
+
+\section{Proof of Termination and Correctness}\label{proofs}
+
+Below, we provide the fragment of the GCD code with the loop---annotated with Hoare assertion conditions (shown in \textcolor{red}{red}): 
+
+\begin{lstlisting}[language=eiffel,numbers=left]
+from
+	x, y := m, n  -- simultaneous assignment
+	$\assert{ inv}$
+invariant 
+	inv: gcd_spec(x,y) = gcd_spec(m,n)
+until
+	x = y  -- exit codition 
+loop
+	if x < y then
+		$\assert{ x < y \land inv}$ y := y - x $\assert{ inv}$
+	else -- y < x
+		$\assert{ y < x \land inv}$ x := x - y $\assert{ inv}$
+	end
+variant x + y
+end
+$\assert{ x = y \land inv }$
+$\assert{ x = gcd\_spec(m,n) }$
+\end{lstlisting} 
+
+
+There are five proof obligations that must be discharged to prove that the loop terminates, and terminates correctly. The first three proof obligations have to do with partial correctness, i.e. if we can assume termination, then:
+
+\begin{itemize}
+  \item the invariant \e{inv} is established initially;
+  \item each execution of the loop preserves the invariant;
+  \item thus, on termination the invariant and the exit condition entail line 17: $x = gcd\_spec(m,n)$.   
+\end{itemize}
+
+The last two proof obligations show that the loop terminates. 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Prove that the invariant $inv$ is established initially}
+
+By HTA-PO, given that we must prove (see lines 1--5)
+
+
+\begin{lstlisting}[language=eiffel]
+    $\assert{ true}$
+    x, y := m, n  -- simultaneous assignment
+    $\assert{ inv}$
+\end{lstlisting} 
+
+
+\noindent it is sufficient to prove $true \1\limp inv[x,y := m,n]$:
+\vspace{-6pt}
+\begin{calculation}
+	true \1\limp inv[x,y := m,n]
+\hint{\equiv}{propositional logic}
+	inv[x,y := m,n]
+\hint{\equiv}{definition of $inv: gcd\_spec(x,y) \1= gcd\_spec(m,n)$ and Leibniz}
+	(gcd\_spec(x,y) = gcd\_spec(m,n))[x,y := m,n]
+\hint{\equiv}{simultaneous assignment $gcd\_spec(x,y)[x,y := m,n] = gcd\_spec(m,n)$ and Leibniz}
+	gcd\_spec(m,n) = gcd\_spec(m,n)
+\hint{\equiv}{equality}
+	true \qquad\blacksquare
+\end{calculation}
+
+	
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\subsection{Prove that each iteration of the loop preserves $inv$}
+
+So long as we are in the loop, the negation of the exit condition holds, i.e. $x \neq y$. There are two branches to the conditional:
+
+\begin{enumerate}
+  \item $\assert{ x < y \land inv}$ y := y - x $\assert{ inv}$
+  \item $\assert{ y < x \land inv}$ x := x - y $\assert{ inv}$
+\end{enumerate}
+
+\noindent We prove each branch separately. 
+
+For the first branch, by HTA-PO, it is sufficient to prove $x < y \land inv \1\limp inv[y := y - x]$. We start with the consequent:
+		
+\begin{calculation}
+	inv[y := y - x]
+\hint{\equiv}{definition of $inv$ and Leibniz}
+	(gcd\_spec(x,y) \1= gcd\_spec(m,n))[y := y - x]
+\hint{\equiv}{assignment of free variables and Leibniz}
+	gcd\_spec(x,y-x) \1= gcd\_spec(m,n)
+\hint{\equiv}{GCD theorem: $y > x \1\limp gcd\_spec(x,y) = gcd\_spec(x,y-x)$}
+	y > x \limp (gcd\_spec(x,y) \1= gcd\_spec(m,n))
+\hint{\equiv}{definition of $inv$ and Leibniz}
+	y > x \1\limp inv \qquad\blacksquare
+\end{calculation}
+
+The GCD theorem $y > x \2\limp gcd\_spec(x,y) = gcd\_spec(x,y-x)$ holds because any divisor of $x$ and $y$ is also a divisor of $x$ and $y-x$. We need $y > x$ to ensure that $\WD(gcd(x,y-x))$, so that $y-x \geq 1$.
+
+The symmetric GCD theorem is $x > y \2\limp gcd\_spec(x,y) = gcd\_spec(x-y,y)$. Thus the second branch of the conditional can be proved symmetrically with the first. 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\subsection{Prove that exit condition and invariant entails postcondition} 
+
+If the loop terminates (line 16), it must terminate with the exit condition true and the invariant must hold (as it has been shown to be preserved by every execution of the loop), i.e. we know: $x = y \1\land inv$.
+
+We must now show that line 17 (i.e. $x = gcd\_spec(m,n)$) holds. We must thus show that $x = y \land inv \2\limp x = gcd\_spec(m,n)$.
 	
 \begin{calculation}
-	wp(a:=0, P)
-\hint{=}{defn. of weakest precondition for assignment}
-	P [a := 0]
-\hint{=} {defn. of $P$}
-	(0 \leq a^2 \leq n)[a := 0]
-\hint{=} {substituting all free occurrences of $a$ in $P$ by zero}
-	0 \leq 0^2 \leq n
-\hint{=}{$0 \leq 0^2 \leq n \1\equiv 0 \leq  n$ and Leibniz}
-	0 \leq n
+	x = y \1\land inv
+\hint{\equiv}{definition of $inv$ and Leibniz}
+	x = y \1\land gcd\_spec(x,y) = gcd\_spec(m,n)
+\hint{\limp}{$x=y$ and Leibniz}	
+	gcd\_spec(x,x) = gcd\_spec(m,n)
+\hint{\equiv}{GCD Theorem: $gcd(x,x) = x$, obvious}
+	x = gcd\_spec(m,n) \qquad\blacksquare
 \end{calculation}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\section{Prove that each iteration of the loop preserves $P$}
+Finally, by HTA-PO, the following trivially holds:
+\begin{lstlisting}[language=eiffel]
+    $\assert{x = gcd\_spec(m,n)}$
+    Result := x
+    $\assert{Result = gcd\_spec(m,n)}$
+\end{lstlisting} 
 
-Must show that: $\{P \land B\}\; a := a + 1 \;\{P\}$, where $B$ is the guard of the loop. 
-	
-\begin{calculation}
-	P \land B
-\hint{=} {definition pf $P$ and $B$}
-	(0 \leq a^2 \leq n) \land ((a+1)^2 \leq n)
-\hint{\Rightarrow}{weakening}
-	0 \leq (a+1)^2 \leq n
-\hint{=}{by substitution}
-	(0 \leq a^2 \leq n)[a := a+1]
-\hint{=}{defn  of $P$}
-	P [a := a+1]
-\hint{=} {defn. of wp}
-	wp(a := a +1, P)
-\end{calculation}
-
+We have thus established the postcondition of $gcd(m,n)$.  
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{Prove that $P \land \lnot B \limp R$, i.e. the postcondition} 
-	
-\begin{calculation}
-	P \land \lnot B
-\hint{=}{defn. of $P$ and $B$}
-	 (0 \leq a^2 \leq n) \land \lnot ((a+1)^2 \leq n)
-\hint{=}{arithmetic and negation}
-	0 \leq a^2 \leq n) \land ((a+1)^2 > n)
-\hint{=}{rearranging}
-	0 \leq a^2 \leq n < (a+1)^2
-\end{calculation}
+\subsection{Show that the variant $t$ is bounded from below}
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Show that the variant $t$ is bounded from below}
- 
-\begin{calculation}
-	P \land B
-\hint{=} {definition pf $P$ and $B$}
-	(0 \leq a^2 \leq n) \land ((a+1)^2 \leq n)
-\hint{\Rightarrow}{weakening}
-	a^2 \leq n
-\hint{=}{sqrt of both sides and $n \geq 0$}
-	a \leq \sqrt n
-\hint{=}{arithmetic}
-	\sqrt n - a \1\geq 0
-\hint{=}{defn. of $t$}
-	t \geq 0
-\end{calculation}
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-
-\section{Show that the variant decreases in each iteration}
-
-Must show that: $\{P \land B \land t = T_0\}\; a := a + 1 \;\{t < T_0\}$, where $B$ is the guard of the loop. 
+The variant $t$ is the integer expression $x+y$. So long as we are in the loop, $\lnot B$ holds where $B$ is the exit condition of the loop. We must thus show that $inv \land \lnot B \1\limp t \geq 0$. The truth is that we do not need the antecedent. We know that the precondition is $x \geq 1 \land y \geq 1$, so we can also trivially prove that $inv2: x \geq 1 \land y \geq 1$ is also a loop invariant. 
 
 \begin{calculation}
-	wp(a := a +1, t < T_0)
-\hint{=} {defn. of weakest precondition}
-	(t < T_0)\;[a := a+1]
-\hint{=}{defn. of $t$}
-	(\sqrt n - a < T_0)\;[a := a +1]
-\hint{=}{substitution}
-	\sqrt n - (a+1) < T_0
-\hint{=}{In the precondition, $t \1= T_0 \1= \sqrt n - a $}
-	\sqrt n - (a+1) < \sqrt n - a
-\hint{=}{Arithmetic and Leibniz}
-	(\sqrt n - a) -1 < \sqrt n - a
-\hint{=}{Arithmetic $x - 1 < x$ for any $x$}
-	true
+	inv2: x \geq 1 \land y \geq 1
+\hint{\limp} {arithmetic}
+	x + y \geq 0
+\hint{\equiv}{definition of $t$}
+	t \geq 0 \qquad\blacksquare
 \end{calculation}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+\subsection{Show that the variant decreases in each iteration}
+
+Must show that: $\{inv \land \lnot B \land t = T_0\}\; loop \;\{t < T_0\}$, where $B$ is the exit condition of the loop. In the above, $T_0$ is an undetermined constant that represents the value of the variant at the beginning of each iteration. 
+
+Left as an exercise.
+
+\section{Eiffel: Runtime assertion checking}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+There is a ``lightweight" method of checking that the proofs hold for a bounded set of inputs, say $m \in 1\upto 100 \1\land n \in 1\upto 100$. 
+
+The Eiffel runtime will automatically check all the assertions of Section~\ref{proofs}. This will provide us with confidence that the loop variant and invariant are well-posed and that the formal verification is feasible.
+
+In addition, any time we execute the query $gcd(m,n)$, all the contracts will be automatically checked, and violations will be reported.   
 
 
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\bibliographystyle{alpha}
+\bibliography{ref}
 \end{document}
