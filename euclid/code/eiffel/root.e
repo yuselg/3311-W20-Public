@@ -71,8 +71,7 @@ feature -- tests
 			gcd, gcd_spec: INTEGER
 			k: INTEGER -- iterations
 		do
-			comment ("t3: exhaustive testing of gcd over 30 x 30")
-				-- this test will fail because Result = False
+			comment ("t2: exhaustive testing of gcd over 30 x 30")
 			k := 30 -- use finalized for larger sets
 			create euclid
 			across 1 |..| k is m loop

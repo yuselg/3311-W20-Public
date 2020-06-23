@@ -49,6 +49,7 @@ feature -- euclid
 				Result = max(divisors(m) |/\| divisors(n))
 		end
 
+feature -- gcd-spec
 	divisors(n: INTEGER): SET[INTEGER]
 			-- return set of divisors of `q`
 		require n >= 1
@@ -64,9 +65,6 @@ feature -- euclid
 			divisors_set: -- Result = {d ∈ 1..q | is_divisible (q, d)}
 			Result ~ (range(1,n)| agent is_divisible (n, ?))
 		end
-
-
-feature {ES_TEST} -- helper queries
 
 	gcd_spec(m, n:INTEGER): INTEGER
 			-- specfication definition of gcd
