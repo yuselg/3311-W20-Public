@@ -1,48 +1,30 @@
-The readme below is still under development. See
-[PDF](https://github.com/yuselg/3311-W20-Public/blob/master/euclid/docs/latex/gcd.pdf).
+* For more details see: 
+[GCD-in-Eiffel.pdf](https://github.com/yuselg/3311-W20-Public/blob/master/euclid/docs/latex/gcd.pdf).
 
-# Verification of Euclid's algorithm for GCD(m,n)
+* For the use of **specifications** throughout the Design Process see
+[Why Eiffel?](http://seldoc.eecs.yorku.ca/doku.php/eiffel/why)
 
-Fom Wikipedia: In mathematics, the Euclidean algorithm is an efficient method for computing the greatest common divisor (GCD) of two integers, the largest number that divides them both without a remainder. It is named after the ancient Greek mathematician Euclid, who first described it in his Elements (c. 300 BC). It is used in cryptographic computations to ensure the security of a variety of systems. 
+* To get started, see [Lab0](https://github.com/yuselg/3311-W20-Public/tree/master/Lab0-Spec)
+
+# Formal Methods: Specifications
 
 > Cybersecurity is everyone’s problem. The target may be the electric grid, government systems storing sensitive personnel data, intellectual property in the defense industrial base, or banks and the financial system. Adversaries range from small-time criminals to nation states and other determined opponents who will explore an ingenious range of attack strategies. And the damage may be tallied in dollars, in strategic advantage, or in human lives. Systematic, secure system design is urgently needed, and we believe that rigorous formal methods are essential for substantial improvements.
 
 > Formal methods enable reasoning from logical or **mathematical specifications** of the behaviors of computing devices or processes; they offer rigorous proofs that all system behaviors meet some desirable property. They are crucial for security goals, because they can show that no attack strategy in a class of strategies will cause a system to misbehave. Without requiring piecemeal enumeration, they rule out a range of attacks. They offer other benefits too: Formal specifications tell an implementer unambiguously what to produce, and they tell the subsequent user or integrator of a component what to rely on it to do. Since many vulnerabilities arise from misunderstandings and mismatches as components are integrated, the payoff from rigorous interface specifications is large. [**Report on the NSF Workshop on Formal Methods for Security**, 2016, https://arxiv.org/pdf/1608.00678.pdf]
 
+# A Simple Specification: Euclid's GCD
+
+Fom Wikipedia: In mathematics, the Euclidean algorithm is an efficient method for computing the greatest common divisor (GCD) of two integers, the largest number that divides them both without a remainder. It is named after the ancient Greek mathematician Euclid, who first described it in his Elements (c. 300 BC). It is used in cryptographic computations to ensure the security of a variety of systems. 
 
 ![](docs/gcd-blackbox.png)
 
 What goes inside the black box? (in this case the "blue box"). 
 
-Some code written in programming languages like C and Java. 
+Some code written in programming languages like C or Java. 
 
 ## Implementing the GCD
 
-A C program to compute the GCD might look as follows
-
-```c
-#include <stdio.h>
-int main()
-{
-    int n1, n2;
-    
-    printf("Enter two positive integers: ");
-    scanf("%d %d",&n1,&n2);
-
-    while(n1!=n2)
-    {
-        if(n1 > n2)
-            n1 -= n2;
-        else
-            n2 -= n1;
-    }
-    printf("GCD = %d",n1);
-
-    return 0;
-}
-```
-
-It is better to wrap the algorithm in a sub-routine. In Java, sub-routines are called methods; it might look as follows:
+In Java, we might write:
 
 ```java
 //recursive version
@@ -154,6 +136,19 @@ gcd(m, n: INTEGER): INTEGER
 
 There are standard proof methods which are used to verify the algorithm using the loop **variant** and **invariant**.
 
-## Specification tests carry over to other languages
+## Why Design by Contract?
+
+* In the program text itself, write specifications (not only implementations).
+* Documents the contract between client and supplier. See the contract view of the program text in Fig. 7. There is a contract between the client and supplier, each having obligations and benefits. Loosely coupled objects are guaranteed to interact correctly with each other as specified in the contract.
+* Verify that the implementation satisfies the specification. Exhaustively test software products using Specification Tests.
+* Executions are raised only when there are contract violations. Avoids code bloat by eliminating the need for constant defensive programming.
+* Subcontracting: ensures the Liskov substitution principle so that inheritance is used correctly.
+* Design by Contract can be used throughout the design process involving modularity, abstraction and information hiding:
+
+> The Eiffel method treats the whole process of software development as a continuum; unifying the concepts behind activities such as requirements, specification, design, implementation, verification, maintenance and evolution; and working to resolve the remaining differences, rather than magnifying them.
+> 
+> Formal specification languages look remarkably like programming languages; to be usable for significant applications they must meet the same challenges: defining a coherent type system, supporting abstraction, providing good syntax (clear to human readers and parsable by tools), specifying the semantics, offering modular structures, allowing evolution while ensuring compatibility.
+
+> The same kinds of ideas, such as an object- oriented structure, help on both sides. Eiffel as a language is the notation that attempts to support this seamless, continuous process, providing tools to express both abstract specifications and detailed implementations. 
 
 
