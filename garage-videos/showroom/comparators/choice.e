@@ -13,21 +13,21 @@ create
 feature -- Types of comparators
 
 	year: INTEGER
-		do
+		once
 			Result := 0
 		ensure
 			class
 		end
 
 	id: INTEGER
-		do
+		once
 			Result := 1
 		ensure
 			class
 		end
 
 	make: INTEGER
-		do
+		once
 			Result := 2
 		ensure
 			class

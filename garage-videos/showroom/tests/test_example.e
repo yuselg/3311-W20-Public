@@ -95,6 +95,9 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
+			Result := showroom.comparator ~ "year"
+			check Result end
+
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -119,6 +122,9 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
+			Result := showroom.comparator ~ "id"
+			check Result end
+
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -143,6 +149,9 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.make)
+			Result := showroom.comparator ~ "make"
+			check Result end
+
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -190,6 +199,9 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
+			Result := showroom.comparator ~ "year"
+			check Result end
+
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -218,6 +230,9 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
+			Result := showroom.comparator ~ "id"
+			check Result end
+
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -246,6 +261,9 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.make)
+			Result := showroom.comparator ~ "make"
+			check Result end
+
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
