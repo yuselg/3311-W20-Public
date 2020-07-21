@@ -1,6 +1,6 @@
 note
 	description: "compare two cars by make."
-	author: "JSO"
+	author: "Jackie Wang"
 
 class
 	COMPARATOR_BY_MAKE[ID  -> COMPARABLE, MAKE -> COMPARABLE]

@@ -1,6 +1,6 @@
 ﻿note
-	description: "Summary description for {UTILITIES}."
-	author: ""
+	description: "Searching and sorting utilities"
+	author: "Jackie Wang"
 	date: "$Date$"
 	revision: "$Revision$"
 

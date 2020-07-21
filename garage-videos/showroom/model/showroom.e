@@ -1,6 +1,6 @@
 ﻿note
 	description: "Representation of a show room."
-	author: ""
+	author: "JSO and Jackie Wang"
 	date: "$Date$"
 	revision: "$Revision$"
 

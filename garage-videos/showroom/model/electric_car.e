@@ -1,6 +1,6 @@
 note
 	description: "Summary description for {ELECTRIC_CAR}."
-	author: ""
+	author: "JSO and Jackie Wang"
 	date: "$Date$"
 	revision: "$Revision$"
 
