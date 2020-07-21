@@ -35,10 +35,12 @@ feature {NONE} -- Initialization
 			add_boolean_case (agent t3a) -- sorted by Year
 			add_boolean_case (agent t3b) -- sorted by ID
 			add_boolean_case (agent t3c) -- sorted by Make
+			add_boolean_case (agent t3d) -- change comparator kind dynamically for sorting
 			add_boolean_case (agent t4)
 			add_boolean_case (agent t5a) -- search by Year
 			add_boolean_case (agent t5b) -- search by ID
 			add_boolean_case (agent t5c) -- search by Make
+			add_boolean_case (agent t5d) -- change comparator kind dynamically for searching
 			add_boolean_case (agent t6)
 
 			-- violation tests
@@ -164,6 +166,59 @@ feature -- Boolean tests
 				and	a[3] ~ tesla
 		end
 
+	t3d: BOOLEAN
+		local
+			showroom: SHOWROOM[INTEGER, STRING]
+			ford, chev: CAR[INTEGER, STRING]
+			tesla: ELECTRIC_CAR[INTEGER, STRING]
+			a: ARRAY[CAR[INTEGER, STRING]]
+		do
+			comment ("t3d: create a showroom of cars (and dynamically change the comparator kind for sorting)")
+			create chev.make_car (1, "Tesla", 2020, 1003)
+			create ford.make_car (2, "Ford", 1977, 567906)
+			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
+			Result := showroom.comparator ~ "year"
+			check Result end
+
+			showroom.add (tesla)
+			showroom.add (ford)
+			showroom.add (chev)
+			a := showroom.sorted_cars
+			-- <<ford, tesla, chev>>
+			Result :=
+						showroom.is_sorted_by_year (a)
+				and	a[1] ~ ford
+				and 	a[2] ~ tesla
+				and	a[3] ~ chev
+			check Result end
+
+			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.id)
+			Result := showroom.comparator ~ "id"
+			check Result end
+
+			a := showroom.sorted_cars
+			-- <<chev, ford, tesla>>
+			Result :=
+						showroom.is_sorted_by_id (a)
+				and	a[1] ~ chev
+				and 	a[2] ~ ford
+				and	a[3] ~ tesla
+			check Result end
+
+			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.make)
+			Result := showroom.comparator ~ "make"
+			check Result end
+
+			a := showroom.sorted_cars
+			-- <<ford, chev, tesla>> (chev and tesla have the same make, so compare by year; see COMPARATOR_BY_MAKE)
+			Result :=
+						showroom.is_sorted_by_make (a)
+				and	a[1] ~ ford
+				and 	a[2] ~ chev
+				and	a[3] ~ tesla
+		end
+
 	t4: BOOLEAN
 		local
 			showroom: SHOWROOM[INTEGER, STRING]
@@ -269,6 +324,68 @@ feature -- Boolean tests
 			showroom.add (chev)
 
 			create corolla.make_car (4, "Corolla", 2019, 5000)
+
+			-- sorted_cars (by make): <<ford, chev, tesla>>
+			-- (chev and tesla have the same make, so compare by year; see COMPARATOR_BY_MAKE)
+			Result :=
+						showroom.search_car (ford) = 1
+				and	showroom.search_car (ford.deep_twin) = 1
+				and	showroom.search_car (chev) = 2
+				and	showroom.search_car (chev.deep_twin) = 2
+				and 	showroom.search_car (tesla) = 3
+				and 	showroom.search_car (tesla.deep_twin) = 3
+				and	showroom.search_car (corolla) = 0
+		end
+
+	t5d: BOOLEAN
+		local
+			showroom: SHOWROOM[INTEGER, STRING]
+			ford, chev, corolla: CAR[INTEGER, STRING]
+			tesla: ELECTRIC_CAR[INTEGER, STRING]
+		do
+			comment ("t5d: test binary search on cars (and dynamically change the comparator kind for searching)")
+			create chev.make_car (1, "Tesla", 2020, 1003)
+			create ford.make_car (2, "Ford", 1977, 567906)
+			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
+			Result := showroom.comparator ~ "year"
+			check Result end
+
+			showroom.add (tesla)
+			showroom.add (ford)
+			showroom.add (chev)
+
+			create corolla.make_car (4, "Corolla", 2019, 5000)
+
+			-- sorted_cars (by year): <<ford, tesla, chev>>
+			Result :=
+						showroom.search_car (ford) = 1
+				and	showroom.search_car (ford.deep_twin) = 1
+				and	showroom.search_car (tesla) = 2
+				and	showroom.search_car (tesla.deep_twin) = 2
+				and 	showroom.search_car (chev) = 3
+				and 	showroom.search_car (chev.deep_twin) = 3
+				and	showroom.search_car (corolla) = 0
+			check Result end
+
+			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.id)
+			Result := showroom.comparator ~ "id"
+			check Result end
+
+			-- sorted_cars (by id): <<chev, ford, tesla>>
+			Result :=
+						showroom.search_car (chev) = 1
+				and	showroom.search_car (chev.deep_twin) = 1
+				and 	showroom.search_car (ford) = 2
+				and 	showroom.search_car (ford.deep_twin) = 2
+				and	showroom.search_car (tesla) = 3
+				and	showroom.search_car (tesla.deep_twin) = 3
+				and	showroom.search_car (corolla) = 0
+			check Result end
+
+			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.make)
+			Result := showroom.comparator ~ "make"
+			check Result end
 
 			-- sorted_cars (by make): <<ford, chev, tesla>>
 			-- (chev and tesla have the same make, so compare by year; see COMPARATOR_BY_MAKE)

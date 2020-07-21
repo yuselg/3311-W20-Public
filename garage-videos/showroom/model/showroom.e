@@ -48,7 +48,7 @@ feature -- Comparator status
 				Result ~ "year" or Result ~ "id" or Result ~ "make"
 		end
 
-	set_comparator (a_comparator_kind: STRING)
+	set_comparator (a_comparator_kind: like comparator)
 			-- Changes the type of comparator to that consistent with `a_comparator_kind`
 		require
 			valid_comparator_kind: {CHOICE[ID, MAKE]}.valid_choice (a_comparator_kind)
@@ -90,7 +90,7 @@ feature -- queries
 		-- Set of cars currently parked in the garage
 
 	sorted_cars: ARRAY [CAR[ID, MAKE]]
-			-- sorted array of cars in the garage, by year
+			-- sorted array of cars in the garage, according to `comparator`
 		do
 			Result := util.sort (cars.as_array, l_comparator)
 		ensure
@@ -126,7 +126,7 @@ feature -- queries
 		end
 
 	search_car (a_car: CAR[ID, MAKE]): INTEGER
-			-- Return index to `cars.as_array` for car identified by the partial order defined by`l_comparator`
+			-- Return index to `cars.as_array` for car identified according to `comparator`
 			-- if it exists, otherwise zero.
 		do
 			Result := util.search_car (sorted_cars, a_car, l_comparator)
