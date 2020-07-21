@@ -15,7 +15,7 @@ create
 
 feature {NONE} -- constructor
 
-	make_empty (a_comparator_kind: INTEGER)
+	make_empty (a_comparator_kind: STRING)
 			-- Initialize an empty garage.
 		require
 			valid_comparator_kind: {CHOICE[ID, MAKE]}.valid_choice (a_comparator_kind)
@@ -48,7 +48,7 @@ feature -- Comparator status
 				Result ~ "year" or Result ~ "id" or Result ~ "make"
 		end
 
-	set_comparator (a_comparator_kind: INTEGER)
+	set_comparator (a_comparator_kind: STRING)
 			-- Changes the type of comparator to that consistent with `a_comparator_kind`
 		require
 			valid_comparator_kind: {CHOICE[ID, MAKE]}.valid_choice (a_comparator_kind)

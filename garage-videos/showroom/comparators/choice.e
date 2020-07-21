@@ -12,46 +12,46 @@ create
 
 feature -- Types of comparators
 
-	year: INTEGER
+	year: STRING
 		once
-			Result := 0
+			Result := "year"
 		ensure
 			class
 		end
 
-	id: INTEGER
+	id: STRING
 		once
-			Result := 1
+			Result := "id"
 		ensure
 			class
 		end
 
-	make: INTEGER
+	make: STRING
 		once
-			Result := 2
+			Result := "make"
 		ensure
 			class
 		end
 
 feature -- Queries
 
-	valid_choice (a_choice: INTEGER): BOOLEAN
+	valid_choice (a_choice: STRING): BOOLEAN
 		do
-			Result := a_choice = year or a_choice = id or a_choice = make
+			Result := a_choice ~ year or a_choice ~ id or a_choice ~ make
 		ensure
 			class
 			correct_result:
-				Result = (a_choice = year or a_choice = id or a_choice = make)
+				Result = (a_choice ~ year or a_choice ~ id or a_choice ~ make)
 		end
 
-	a_comparator (a_choice: INTEGER): KL_COMPARATOR[CAR[ID, MAKE]]
+	a_comparator (a_choice: STRING): KL_COMPARATOR[CAR[ID, MAKE]]
 			-- Returns a comparator whose type is consistent with `a_choice`
 		require
 			valid_choice (a_choice)
 		do
-			if a_choice = year then
+			if a_choice ~ year then
 				create {COMPARATOR_BY_YEAR[ID, MAKE]} Result
-			elseif a_choice = id then
+			elseif a_choice ~ id then
 				create {COMPARATOR_BY_ID[ID, MAKE]} Result
 			else
 				create {COMPARATOR_BY_MAKE[ID, MAKE]} Result
@@ -59,11 +59,11 @@ feature -- Queries
 		ensure
 			class
 			correct_dynamic_types:
-				(a_choice = year implies attached {COMPARATOR_BY_YEAR[ID, MAKE]} Result)
+				(a_choice ~ year implies attached {COMPARATOR_BY_YEAR[ID, MAKE]} Result)
 				and
-				(a_choice = id implies attached {COMPARATOR_BY_ID[ID, MAKE]} Result)
+				(a_choice ~ id implies attached {COMPARATOR_BY_ID[ID, MAKE]} Result)
 				and
-				(a_choice = make implies attached {COMPARATOR_BY_MAKE[ID, MAKE]} Result)
+				(a_choice ~ make implies attached {COMPARATOR_BY_MAKE[ID, MAKE]} Result)
 		end
 
 end
