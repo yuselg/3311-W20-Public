@@ -11,23 +11,35 @@ inherit
 	ITERABLE[CAR[ID, MAKE]]
 
 create
-	make
+	make_empty
 
 feature {NONE} -- constructor
 
-	make (a_comparator: KL_COMPARATOR[CAR[ID, MAKE]])
+	make_empty (a_comparator_kind: INTEGER)
 			-- Initialize an empty garage.
+		require
+			valid_comparator_kind: {CHOICE[ID, MAKE]}.valid_choice (a_comparator_kind)
 		do
 			create cars.make_empty
 			create util.make
-			l_comparator := a_comparator
+			comparator := {CHOICE[ID, MAKE]}.a_comparator (a_comparator_kind)
 		ensure
 			cars.count = 0
 		end
 
-feature -- Comparator for searching and sorting
+feature {NONE} -- Comparator for searching and sorting
 
-	l_comparator: KL_COMPARATOR[CAR[ID, MAKE]]
+	comparator: KL_COMPARATOR[CAR[ID, MAKE]]
+
+feature -- Changing Comparator
+
+	set_comparator (a_comparator_kind: INTEGER)
+			-- Changes the type of comparator to that consistent with `a_comparator_kind`
+		require
+			valid_comparator_kind: {CHOICE[ID, MAKE]}.valid_choice (a_comparator_kind)
+		do
+			comparator := {CHOICE[ID, MAKE]}.a_comparator (a_comparator_kind)
+		end
 
 feature -- Iterable
 
@@ -49,6 +61,8 @@ feature -- commands
 			cars ~ (old cars.deep_twin + a_car)
 		end
 
+	-- TODO: remove a car
+
 feature -- queries
 
 	count: INTEGER
@@ -63,12 +77,12 @@ feature -- queries
 	sorted_cars: ARRAY [CAR[ID, MAKE]]
 			-- sorted array of cars in the garage, by year
 		do
-			Result := util.sort (cars.as_array, l_comparator)
+			Result := util.sort (cars.as_array, comparator)
 		ensure
-			is_sorted: -- ∀i ∈ 1..n: Result[i] < Result[i+1], where n = Result.count-1 and '<' is a partial order defined by `l_comparator`.
+			is_sorted: -- ∀i ∈ 1..n: Result[i] < Result[i+1], where n = Result.count-1 and '<' is a partial order defined by `comparator`.
 				across 1 |..| (Result.count - 1) is i
 					all
-						l_comparator.less_than (Result[i], Result[i + 1])
+						comparator.less_than (Result[i], Result[i + 1])
 					end
 		end
 
@@ -100,14 +114,14 @@ feature -- queries
 			-- Return index to `cars.as_array` for car identified by the partial order defined by`l_comparator`
 			-- if it exists, otherwise zero.
 		do
-			Result := util.search_car (sorted_cars, a_car, l_comparator)
+			Result := util.search_car (sorted_cars, a_car, comparator)
 		ensure
 			target_not_found:
-				not (across sorted_cars is car some l_comparator.attached_order_equal (car, a_car) end) implies
+				not (across sorted_cars is car some comparator.attached_order_equal (car, a_car) end) implies
 					(Result = 0)
 			target_found:
-				(across sorted_cars is car some l_comparator.attached_order_equal (car, a_car) end) implies
-					(l_comparator.attached_order_equal(sorted_cars[Result], a_car))
+				(across sorted_cars is car some comparator.attached_order_equal (car, a_car) end) implies
+					(comparator.attached_order_equal(sorted_cars[Result], a_car))
 		end
 
 feature {NONE} -- Utilities for implementation

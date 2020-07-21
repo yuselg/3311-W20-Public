@@ -89,14 +89,12 @@ feature -- Boolean tests
 			ford, chev: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 			a: ARRAY[CAR[INTEGER, STRING]]
-			c: COMPARATOR_BY_YEAR[INTEGER, STRING]
 		do
 			comment ("t3a: create a showroom of cars (sorted based on comparison by Year)")
 			create chev.make_car (1, "Tesla", 2020, 1003)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -115,14 +113,12 @@ feature -- Boolean tests
 			ford, chev: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 			a: ARRAY[CAR[INTEGER, STRING]]
-			c: COMPARATOR_BY_ID[INTEGER, STRING]
 		do
 			comment ("t3b: create a showroom of cars (sorted based on comparison by ID)")
 			create chev.make_car (1, "Tesla", 2020, 1003)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -141,14 +137,12 @@ feature -- Boolean tests
 			ford, chev: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 			a: ARRAY[CAR[INTEGER, STRING]]
-			c: COMPARATOR_BY_MAKE[INTEGER, STRING]
 		do
 			comment ("t3c: create a showroom of cars (sorted based on comparison by Make)")
 			create chev.make_car (1, "Tesla", 2020, 1003)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.make)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -167,15 +161,13 @@ feature -- Boolean tests
 			ford, chev, civic: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 			cars: SET[CAR[INTEGER, STRING]]
-			c: COMPARATOR_BY_YEAR[INTEGER, STRING]
 		do
 			comment ("t4: filter via comprehension (with no use of comparator)")
 			create civic.make_car (1, "Civic", 1986, 677_999)
 			create tesla.make_car (2, "Tesla", 2017, 4380)
 			create ford.make_car (3, "Ford", 1977, 567906)
 			create chev.make_car (4, "Chev", 2020, 1003)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			-- Note: searching and sorting of `showroom` will use the partial order defined in `c`
 			showroom.add (civic)
 			showroom.add (tesla)
@@ -192,14 +184,12 @@ feature -- Boolean tests
 			showroom: SHOWROOM[INTEGER, STRING]
 			ford, chev, corolla: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
-			c: COMPARATOR_BY_YEAR[INTEGER, STRING]
 		do
 			comment ("t5a: test binary search on cars by year")
 			create chev.make_car (1, "Tesla", 2020, 1003)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -222,14 +212,12 @@ feature -- Boolean tests
 			showroom: SHOWROOM[INTEGER, STRING]
 			ford, chev, corolla: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
-			c: COMPARATOR_BY_ID[INTEGER, STRING]
 		do
 			comment ("t5b: test binary search on cars by ID")
 			create chev.make_car (1, "Tesla", 2020, 1003)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -252,14 +240,12 @@ feature -- Boolean tests
 			showroom: SHOWROOM[INTEGER, STRING]
 			ford, chev, corolla: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
-			c: COMPARATOR_BY_MAKE[INTEGER, STRING]
 		do
 			comment ("t5c: test binary search on cars by Make")
 			create chev.make_car (1, "Tesla", 2020, 1003)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create tesla.make_car (3, "Tesla", 2017, 4380)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.make)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
@@ -284,14 +270,12 @@ feature -- Boolean tests
 			ford, chev: CAR[INTEGER, STRING]
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 			cars: ARRAY[CAR[INTEGER, STRING]]
-			c: COMPARATOR_BY_ID[INTEGER, STRING]
 		do
 			comment ("t6: test iterable showroom")
 			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create chev.make_car (3, "Tesla", 2020, 1003)
-			create c
-			create showroom.make (c)
+			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
 			showroom.add (tesla)
 			showroom.add (ford)
 			showroom.add (chev)
