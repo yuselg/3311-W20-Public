@@ -93,9 +93,9 @@ feature -- Boolean tests
 			a: ARRAY[CAR[INTEGER, STRING]]
 		do
 			comment ("t3a: create a showroom of cars (sorted based on comparison by Year)")
-			create chev.make_car (1, "Tesla", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			Result := showroom.comparator ~ "year"
 			check Result end
@@ -120,9 +120,9 @@ feature -- Boolean tests
 			a: ARRAY[CAR[INTEGER, STRING]]
 		do
 			comment ("t3b: create a showroom of cars (sorted based on comparison by ID)")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
 			Result := showroom.comparator ~ "id"
 			check Result end
@@ -131,12 +131,12 @@ feature -- Boolean tests
 			showroom.add (ford)
 			showroom.add (chev)
 			a := showroom.sorted_cars
-			-- <<chev, ford, tesla>>
+			-- <<tesla, ford, chev>>
 			Result :=
 						showroom.is_sorted_by_id (a)
-				and	a[1] ~ chev
+				and	a[1] ~ tesla
 				and 	a[2] ~ ford
-				and	a[3] ~ tesla
+				and	a[3] ~ chev
 		end
 
 	t3c: BOOLEAN
@@ -147,9 +147,9 @@ feature -- Boolean tests
 			a: ARRAY[CAR[INTEGER, STRING]]
 		do
 			comment ("t3c: create a showroom of cars (sorted based on comparison by Make)")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.make)
 			Result := showroom.comparator ~ "make"
 			check Result end
@@ -174,9 +174,10 @@ feature -- Boolean tests
 			a: ARRAY[CAR[INTEGER, STRING]]
 		do
 			comment ("t3d: create a showroom of cars (and dynamically change the comparator kind for sorting)")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
+
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			Result := showroom.comparator ~ "year"
 			check Result end
@@ -198,12 +199,12 @@ feature -- Boolean tests
 			check Result end
 
 			a := showroom.sorted_cars
-			-- <<chev, ford, tesla>>
+			-- <<tesla, ford, chev>>
 			Result :=
 						showroom.is_sorted_by_id (a)
-				and	a[1] ~ chev
+				and	a[1] ~ tesla
 				and 	a[2] ~ ford
-				and	a[3] ~ tesla
+				and	a[3] ~ chev
 			check Result end
 
 			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.make)
@@ -250,9 +251,9 @@ feature -- Boolean tests
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 		do
 			comment ("t5a: test binary search on cars by year")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			Result := showroom.comparator ~ "year"
 			check Result end
@@ -281,9 +282,9 @@ feature -- Boolean tests
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 		do
 			comment ("t5b: test binary search on cars by ID")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.id)
 			Result := showroom.comparator ~ "id"
 			check Result end
@@ -294,14 +295,14 @@ feature -- Boolean tests
 
 			create corolla.make_car (4, "Corolla", 2019, 5000)
 
-			-- sorted_cars (by id): <<chev, ford, tesla>>
+			-- sorted_cars (by id): <<tesla, ford, chev>>
 			Result :=
-						showroom.search_car (chev) = 1
-				and	showroom.search_car (chev.deep_twin) = 1
+						showroom.search_car (tesla) = 1
+				and	showroom.search_car (tesla.deep_twin) = 1
 				and 	showroom.search_car (ford) = 2
 				and 	showroom.search_car (ford.deep_twin) = 2
-				and	showroom.search_car (tesla) = 3
-				and	showroom.search_car (tesla.deep_twin) = 3
+				and	showroom.search_car (chev) = 3
+				and	showroom.search_car (chev.deep_twin) = 3
 				and	showroom.search_car (corolla) = 0
 		end
 
@@ -312,9 +313,9 @@ feature -- Boolean tests
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 		do
 			comment ("t5c: test binary search on cars by Make")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.make)
 			Result := showroom.comparator ~ "make"
 			check Result end
@@ -343,9 +344,9 @@ feature -- Boolean tests
 			tesla: ELECTRIC_CAR[INTEGER, STRING]
 		do
 			comment ("t5d: test binary search on cars (and dynamically change the comparator kind for searching)")
-			create chev.make_car (1, "Chev", 2020, 1003)
+			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
-			create tesla.make_car (3, "Tesla", 2017, 4380)
+			create chev.make_car (3, "Chev", 2020, 1003)
 			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
 			Result := showroom.comparator ~ "year"
 			check Result end
@@ -371,14 +372,14 @@ feature -- Boolean tests
 			Result := showroom.comparator ~ "id"
 			check Result end
 
-			-- sorted_cars (by id): <<chev, ford, tesla>>
+			-- sorted_cars (by id): <<tesla, ford, chev>>
 			Result :=
-						showroom.search_car (chev) = 1
-				and	showroom.search_car (chev.deep_twin) = 1
+						showroom.search_car (tesla) = 1
+				and	showroom.search_car (tesla.deep_twin) = 1
 				and 	showroom.search_car (ford) = 2
 				and 	showroom.search_car (ford.deep_twin) = 2
-				and	showroom.search_car (tesla) = 3
-				and	showroom.search_car (tesla.deep_twin) = 3
+				and	showroom.search_car (chev) = 3
+				and	showroom.search_car (chev.deep_twin) = 3
 				and	showroom.search_car (corolla) = 0
 			check Result end
 
