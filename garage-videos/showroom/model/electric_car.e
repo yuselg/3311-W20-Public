@@ -5,18 +5,18 @@ note
 	revision: "$Revision$"
 
 class
-	ELECTRIC_CAR[ID  -> COMPARABLE, MAKE -> attached ANY]
+	ELECTRIC_CAR[ID  -> COMPARABLE, MAKE -> COMPARABLE]
 
 inherit
 	CAR [ID, MAKE]
-		redefine add_car end
+		redefine make_car end
 
 create
-	add_car
+	make_car
 
 feature {NONE} -- constructor
 
-	add_car(a_id: ID; a_model: MAKE; a_year: INTEGER; a_miles: like odometer)
+	make_car(a_id: ID; a_model: MAKE; a_year: INTEGER; a_miles: like odometer)
 		do
 			make := a_model
 			year := a_year

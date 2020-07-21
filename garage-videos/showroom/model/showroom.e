@@ -1,11 +1,11 @@
 ﻿note
-	description: "Representation of a garage."
+	description: "Representation of a show room."
 	author: ""
 	date: "$Date$"
 	revision: "$Revision$"
 
 class
-	SHOWROOM [ID -> COMPARABLE, MAKE -> attached ANY]
+	SHOWROOM [ID -> COMPARABLE, MAKE -> COMPARABLE]
 
 inherit
 	ITERABLE[CAR[ID, MAKE]]
@@ -15,20 +15,26 @@ create
 
 feature {NONE} -- constructor
 
-	make
+	make (a_comparator: KL_COMPARATOR[CAR[ID, MAKE]])
 			-- Initialize an empty garage.
 		do
 			create cars.make_empty
+			create util.make
+			l_comparator := a_comparator
 		ensure
 			cars.count = 0
 		end
+
+feature -- Comparator for searching and sorting
+
+	l_comparator: KL_COMPARATOR[CAR[ID, MAKE]]
 
 feature -- Iterable
 
 	new_cursor: ITERATION_CURSOR[CAR[ID, MAKE]]
 			-- An iteration cursor pointing to a car.
 		do
-			Result := sorted_cars_by_year.new_cursor
+			Result := sorted_cars.new_cursor
 		end
 
 feature -- commands
@@ -39,7 +45,6 @@ feature -- commands
 			not cars.has (a_car)
 		do
 			cars.extend (a_car)
-			is_sorted := False
 		ensure
 			cars ~ (old cars.deep_twin + a_car)
 		end
@@ -55,25 +60,17 @@ feature -- queries
 	cars: SET [CAR[ID, MAKE]]
 		-- Set of cars currently parked in the garage
 
-	sorted_cars_by_year: ARRAY [CAR[ID, MAKE]]
+	sorted_cars: ARRAY [CAR[ID, MAKE]]
 			-- sorted array of cars in the garage, by year
-		local
-			l_comparator: COMPARATOR_BY_YEAR [ID, MAKE]
-			l_sorter: DS_ARRAY_QUICK_SORTER [CAR[ID, MAKE]]
-			a: ARRAY [CAR[ID, MAKE]]
 		do
-			-- use built in sort routine to sort by car year
-			Result := cars.as_array.deep_twin
-			create l_comparator
-			create l_sorter.make (l_comparator)
-			l_sorter.sort (Result)
+			Result := util.sort (cars.as_array, l_comparator)
 		ensure
-			sorted: -- ∀i ∈ 1..n: Result[i].year ≤ Result[i+1].year, where n = Result.count-1
-				is_sorted_by_year(Result)
+			is_sorted: -- ∀i ∈ 1..n: Result[i] < Result[i+1], where n = Result.count-1 and '<' is a partial order defined by `l_comparator`.
+				across 1 |..| (Result.count - 1) is i
+					all
+						l_comparator.less_than (Result[i], Result[i + 1])
+					end
 		end
-
-
-
 
 	old_cars (a_year: INTEGER): like cars
 			-- return all cars older than `a_year`
@@ -81,7 +78,7 @@ feature -- queries
 			a, b: ARRAY[CAR[ID, MAKE]]
 			i: INTEGER
 		do
-			b := sorted_cars_by_year
+			b := sorted_cars
 			from
 				i := 1
 				create a.make_empty
@@ -99,56 +96,27 @@ feature -- queries
 			Result ~ (cars | agent by_year(?, a_year))
 		end
 
-	search_car (a_year: INTEGER): INTEGER
-			-- return index to `sorted_cars_by_year` for car identified by `id`
-			-- if it exists, otherwise zero
-		require
-			sorted: -- ∀i ∈ 1..n: sorted_cars_by_year[i].year ≤ sorted_cars_by_year[i+1].year, where n = sorted_cars_by_year.count-1
-				is_sorted_by_year(sorted_cars_by_year)
-		local
-			p, q: INTEGER -- pivots
-			mid: INTEGER  -- middle
-			found: BOOLEAN
-			an_array: like sorted_cars_by_year
+	search_car (a_car: CAR[ID, MAKE]): INTEGER
+			-- Return index to `cars.as_array` for car identified by the partial order defined by`l_comparator`
+			-- if it exists, otherwise zero.
 		do
-			an_array := sorted_cars_by_year
-			from
-				p := 1; q := an_array.count; Result := 0
-			invariant
-				target_not_found: not found implies
-					Result = 0
-				target_found: found implies
-					p <= Result and Result <= q and an_array[Result].year = a_year
-			until
-				p > q or found
-			loop
-				mid := (p+q) // 2
-				if an_array[mid].year > a_year then
-					q := mid - 1
-				elseif an_array[mid].year < a_year then
-					p := mid + 1
-				else -- p = q
-					check an_array[mid].year ~ a_year end
-					found := True
-					Result := mid
-				end
-			variant
-				(q - p + 1) - (if found then 1 else 0 end)
-			end
-		ensure  -- pure function
+			Result := util.search_car (sorted_cars, a_car, l_comparator)
+		ensure
 			target_not_found:
-				not (across sorted_cars_by_year is car some car.year = a_year end) implies
+				not (across sorted_cars is car some l_comparator.attached_order_equal (car, a_car) end) implies
 					(Result = 0)
 			target_found:
-				across sorted_cars_by_year is car some car.year = a_year end implies
-					(sorted_cars_by_year[Result].year = a_year)
+				(across sorted_cars is car some l_comparator.attached_order_equal (car, a_car) end) implies
+					(l_comparator.attached_order_equal(sorted_cars[Result], a_car))
 		end
 
+feature {NONE} -- Utilities for implementation
 
+	util: UTILITIES[ID, MAKE]
 
- feature -- helpers
+ feature {ES_TEST} -- Helpers for tests
 
-	is_sorted_by_year(l_array: like sorted_cars_by_year): BOOLEAN
+	is_sorted_by_year(l_array: like sorted_cars): BOOLEAN
 			-- Are cars in `l_array` sorted in non-descending order w.r.t. year?
 		do
 			Result := (across 1 |..| (l_array.count - 1) is i all
@@ -160,34 +128,50 @@ feature -- queries
 					 end)
 		end
 
+	is_sorted_by_id(l_array: like sorted_cars): BOOLEAN
+			-- Are cars in `l_array` sorted in non-descending order w.r.t. id?
+		do
+			Result := (across 1 |..| (l_array.count - 1) is i all
+						l_array [i].id <= l_array [i + 1].id
+					 end)
+		ensure
+			Result = (across 1 |..| (l_array.count - 1) is i all
+						l_array [i].id <= l_array [i + 1].id
+					 end)
+		end
+
+	is_sorted_by_make(l_array: like sorted_cars): BOOLEAN
+			-- Are cars in `l_array` sorted in non-descending order w.r.t. make?
+		do
+			Result := (across 1 |..| (l_array.count - 1) is i all
+								if l_array [i].make ~ l_array [i + 1].make then
+									l_array [i].id < l_array [i + 1].id
+								else
+									l_array [i].make < l_array [i + 1].make
+								end
+					 		end)
+		ensure
+			Result = (across 1 |..| (l_array.count - 1) is i all
+								if l_array [i].make ~ l_array [i + 1].make then
+									l_array [i].id <= l_array [i + 1].id
+								else
+									l_array [i].make < l_array [i + 1].make
+								end
+					 		end)
+		end
+
+feature {SHOWROOM} -- Helpers for contracts
+
 	by_year(a_car: CAR[ID, MAKE]; a_year: INTEGER): BOOLEAN
 			-- Is the year of `a_car` less than `a_year`?
        do
 			Result := a_car.year <= a_year
        end
 
-feature -- general sorting
-
-	is_sorted: BOOLEAN
-	sorted: ARRAY [CAR[ID, MAKE]]
-		require is_sorted
-		attribute create Result.make_empty end
-
-	sort(a_comparator: KL_COMPARATOR[CAR[ID, MAKE]])
-				-- sort array `sorted` of cars by comparator type
-			local
-				l_sorted: SORTING[ID, MAKE]
-			do
-				create l_sorted.make
-				sorted := l_sorted.sort (cars, a_comparator)
-				is_sorted := True
-			ensure
-				sorted: -- ∀i ∈ 1..n: Result[i].year ≤ Result[i+1].year, where n = Result.count-1
-					is_sorted
-			end
-
 invariant
-	conistent_count: count = cars.count
+
+	conistent_count:
+		count = cars.count
 
 end
 

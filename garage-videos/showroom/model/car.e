@@ -3,13 +3,14 @@ note
 		Repersentation of a car having a make, 
 		year and odometer reading. 
 		The `make` of a car is a generic parameter 
-			(allonwing for abstraction over types)
+			(allowing for abstraction over types)
 		The `id` of a car is also a generic parameters
 		]"
 	author: "JSO"
 
 class
-	CAR[ID -> COMPARABLE, MAKE -> attached ANY]
+	CAR[ID -> COMPARABLE, MAKE -> COMPARABLE]
+
 inherit
 	ANY
 		redefine is_equal end
@@ -18,10 +19,11 @@ inherit
 		undefine is_equal end
 
 create
-	add_car
+	make_car
+
 feature {NONE} -- constructor
 
-	add_car(a_id: ID; a_model: MAKE; a_year: INTEGER; a_miles: like odometer)
+	make_car(a_id: ID; a_model: MAKE; a_year: INTEGER; a_miles: like odometer)
 			-- Initialize a new car with `a_model`, `a_year`, and an odometer read `a_miles`.
 		require
 			consistent_year: a_year >= 1900

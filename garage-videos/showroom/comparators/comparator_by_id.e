@@ -3,7 +3,7 @@ note
 	author: "JSO"
 
 class
-	COMPARATOR_BY_ID[ID -> COMPARABLE, MAKE -> attached ANY]
+	COMPARATOR_BY_ID[ID -> COMPARABLE, MAKE -> COMPARABLE]
 inherit
 	KL_COMPARATOR[CAR[ID, MAKE]]
 
