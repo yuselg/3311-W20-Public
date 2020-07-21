@@ -178,9 +178,7 @@ feature -- Boolean tests
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create chev.make_car (3, "Chev", 2020, 1003)
 
-			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
-			Result := showroom.comparator ~ "year"
-			check Result end
+			create showroom.make_empty ("year")
 
 			showroom.add (tesla)
 			showroom.add (ford)
@@ -194,9 +192,7 @@ feature -- Boolean tests
 				and	a[3] ~ chev
 			check Result end
 
-			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.id)
-			Result := showroom.comparator ~ "id"
-			check Result end
+			showroom.set_comparator ("id")
 
 			a := showroom.sorted_cars
 			-- <<tesla, ford, chev>>
@@ -207,9 +203,7 @@ feature -- Boolean tests
 				and	a[3] ~ chev
 			check Result end
 
-			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.make)
-			Result := showroom.comparator ~ "make"
-			check Result end
+			showroom.set_comparator ("make")
 
 			a := showroom.sorted_cars
 			-- <<chev, ford, tesla>>
@@ -347,9 +341,7 @@ feature -- Boolean tests
 			create tesla.make_car (1, "Tesla", 2017, 4380)
 			create ford.make_car (2, "Ford", 1977, 567906)
 			create chev.make_car (3, "Chev", 2020, 1003)
-			create showroom.make_empty ({CHOICE[INTEGER, STRING]}.year)
-			Result := showroom.comparator ~ "year"
-			check Result end
+			create showroom.make_empty ("year")
 
 			showroom.add (tesla)
 			showroom.add (ford)
@@ -360,41 +352,28 @@ feature -- Boolean tests
 			-- sorted_cars (by year): <<ford, tesla, chev>>
 			Result :=
 						showroom.search_car (ford) = 1
-				and	showroom.search_car (ford.deep_twin) = 1
 				and	showroom.search_car (tesla) = 2
-				and	showroom.search_car (tesla.deep_twin) = 2
 				and 	showroom.search_car (chev) = 3
-				and 	showroom.search_car (chev.deep_twin) = 3
 				and	showroom.search_car (corolla) = 0
 			check Result end
 
-			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.id)
-			Result := showroom.comparator ~ "id"
-			check Result end
+			showroom.set_comparator ("id")
 
 			-- sorted_cars (by id): <<tesla, ford, chev>>
 			Result :=
 						showroom.search_car (tesla) = 1
-				and	showroom.search_car (tesla.deep_twin) = 1
 				and 	showroom.search_car (ford) = 2
-				and 	showroom.search_car (ford.deep_twin) = 2
 				and	showroom.search_car (chev) = 3
-				and	showroom.search_car (chev.deep_twin) = 3
 				and	showroom.search_car (corolla) = 0
 			check Result end
 
-			showroom.set_comparator ({CHOICE[INTEGER, STRING]}.make)
-			Result := showroom.comparator ~ "make"
-			check Result end
+			showroom.set_comparator ("make")
 
 			-- sorted_cars (by make): <<chev, ford, tesla>>
 			Result :=
 						showroom.search_car (chev) = 1
-				and	showroom.search_car (chev.deep_twin) = 1
 				and	showroom.search_car (ford) = 2
-				and	showroom.search_car (ford.deep_twin) = 2
 				and 	showroom.search_car (tesla) = 3
-				and 	showroom.search_car (tesla.deep_twin) = 3
 				and	showroom.search_car (corolla) = 0
 		end
 
@@ -422,6 +401,16 @@ feature -- Boolean tests
 						cars[1] ~ tesla
 				and	cars[2] ~ ford
 				and	cars[3] ~ chev
+			check Result end
+
+			showroom.remove (chev)
+			create cars.make_empty
+			across showroom is car loop
+				cars.force (car, cars.count + 1)
+			end
+			Result :=
+						cars[1] ~ tesla
+				and	cars[2] ~ ford  
 		end
 
 feature -- Violation tests

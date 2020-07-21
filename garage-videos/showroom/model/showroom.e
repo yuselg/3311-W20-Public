@@ -16,7 +16,7 @@ create
 feature {NONE} -- constructor
 
 	make_empty (a_comparator_kind: STRING)
-			-- Initialize an empty garage.
+			-- Initialize an empty showroom.
 		require
 			valid_comparator_kind: {CHOICE[ID, MAKE]}.valid_choice (a_comparator_kind)
 		do
@@ -67,7 +67,7 @@ feature {NONE} -- Iterable
 feature -- commands
 
 	add (a_car: CAR [ID, MAKE])
-			-- Park `a_car` in the garage.
+			-- Add `a_car` in the showroom.
 		require
 			not cars.has (a_car)
 		do
@@ -76,21 +76,29 @@ feature -- commands
 			cars ~ (old cars.deep_twin + a_car)
 		end
 
-	-- TODO: remove a car
+	remove (a_car: CAR [ID, MAKE])
+			-- Remove `a_car` from the showroom.
+		require
+			cars.has (a_car)
+		do
+			cars.subtract (a_car)
+		ensure
+			cars ~ (old cars.deep_twin - a_car)
+		end
 
 feature -- queries
 
 	count: INTEGER
-			-- Number of cars in garage.
+			-- Number of cars in showroom.
 		do
 			Result := cars.count
 		end
 
 	cars: SET [CAR[ID, MAKE]]
-		-- Set of cars currently parked in the garage
+		-- Set of cars currently parked in the showroom
 
 	sorted_cars: ARRAY [CAR[ID, MAKE]]
-			-- sorted array of cars in the garage, according to `comparator`
+			-- sorted array of cars in the showroom, according to `comparator`
 		do
 			Result := util.sort (cars.as_array, l_comparator)
 		ensure
